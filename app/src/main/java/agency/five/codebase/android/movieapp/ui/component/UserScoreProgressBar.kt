@@ -1,5 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.component
 
+import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -11,47 +12,58 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.Alignment
 
 @Composable
 fun UserScoreProgressBar(
+    percentage: Float,
     value: Float,
     modifier: Modifier = Modifier,
+    color: Color,
+    strokeWidth: Float,
 ) {
+    val localSpacing = Spacing()
     Box(
-        modifier = modifier
-            .width(42.dp)
-            .height(42.dp)
-    ) {
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ){
         Canvas(
             modifier = modifier
                 .fillMaxSize()
-                .padding(2.dp)
+                .padding(localSpacing.extraSmall)
         ) {
             drawArc(
-                color = if (value <= 0.3) Color.Red else if (value <= 0.7) Color.Yellow else Color.Green,
+                color = color,
                 startAngle = -90f,
-                sweepAngle = 360f * value,
+                sweepAngle = 360f * percentage,
                 useCenter = false,
                 style = Stroke(
-                    width = 12f,
-                    cap = StrokeCap.Round
+                    width = strokeWidth, cap = StrokeCap.Round
+                )
+            )
+            drawCircle(
+                color = color.copy(alpha = 0.1f), style = Stroke(
+                    width = strokeWidth
                 )
             )
         }
-
         Text(
-            text = "${value * 10}",
-            fontSize = 15.sp,
-            modifier = modifier
-                .width(42.dp)
-                .height(42.dp)
-                .padding(10.dp),
+            text = "$value",
+            fontSize = 25.sp
         )
     }
+
 }
 
 @Preview
 @Composable
 private fun UserScoreProgressBarPreview() {
-    UserScoreProgressBar(0.726f)
+    val percentage = 0.15f;
+    UserScoreProgressBar(
+        percentage,
+        percentage * 10,
+        modifier = Modifier.size(60.dp),
+        color = Color.Green,
+        strokeWidth = 15f
+    );
 }

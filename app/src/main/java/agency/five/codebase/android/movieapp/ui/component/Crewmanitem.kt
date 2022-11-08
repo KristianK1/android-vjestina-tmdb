@@ -14,16 +14,13 @@ data class CrewmanItemViewState(
     val job: String,
 )
 
-
 @Composable
 fun CrewmanItem(
     item: CrewmanItemViewState,
 ) {
     Column() {
         Text(
-            text = item.name,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold
+            text = item.name, fontSize = 14.sp, fontWeight = FontWeight.Bold
         )
         Text(
             text = item.job,
@@ -32,10 +29,9 @@ fun CrewmanItem(
     }
 }
 
-
 @Preview
 @Composable
-fun CrewmanItemPreview(){
+fun CrewmanItemPreview() {
     val crewman = MoviesMock.getCrewman()
     val crewmanViewState = CrewmanItemViewState(crewman.name, crewman.job)
     CrewmanItem(item = crewmanViewState)

@@ -7,6 +7,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,21 +26,19 @@ data class MovieCategoryTextStringResource(val category: Int) : MovieCategoryLab
 
 data class MovieCategoryLabelViewState(
     val itemId: Int,
-    val isSelected: Boolean,
     val categoryText: MovieCategoryLabelTextViewState,
 )
 
 @Composable
 fun MovieCategoryLabel(
     item: MovieCategoryLabelViewState,
-    modifier: Modifier = Modifier,
+    state: MutableState<Boolean>,
+    onClick: () -> Unit,
+    modifier: Modifier
 ) {
-
-    val rememberState = remember { mutableStateOf(item.isSelected) }
-
-    Column(
+    Box(
         modifier = modifier
-            .height(30.dp)
+            .clickable { onClick.invoke() }
     ) {
         Text(
             text = when (item.categoryText) {
@@ -47,22 +46,23 @@ fun MovieCategoryLabel(
                 is MovieCategoryTextStringResource -> stringResource(id = item.categoryText.category)
             },
             fontSize = 16.sp,
-            textDecoration = if (rememberState.value) TextDecoration.Underline else TextDecoration.None,
-            fontWeight = if (rememberState.value) FontWeight.Bold else FontWeight.Normal,
-            color = if (rememberState.value) Color.Black else Color.Gray,
-            modifier = modifier
-                .clickable {
-                    rememberState.value = !rememberState.value
-                }
+            textDecoration = if (state.value) TextDecoration.Underline else TextDecoration.None,
+            fontWeight = if (state.value) FontWeight.Bold else FontWeight.Normal,
+            color = if (state.value) Color.Black else Color.Gray
         )
     }
 }
 
-
 @Preview
 @Composable
 fun MovieCategoryLabelPreview() {
-    val movieCategoryViewState =
-        MovieCategoryLabelViewState(9, false, MovieCategoryTextString("Comedy"))
-    MovieCategoryLabel(movieCategoryViewState)
+    val movieCategoryViewState = MovieCategoryLabelViewState(9, MovieCategoryTextString("Comedy"))
+    val state = remember {
+        mutableStateOf(false)
+    }
+    val onClick = {
+        state.value = !state.value
+    }
+
+    MovieCategoryLabel(movieCategoryViewState, state, onClick, Modifier)
 }

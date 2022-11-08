@@ -1,27 +1,28 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import android.util.Log
+import agency.five.codebase.android.movieapp.ui.theme.Shapes
+import agency.five.codebase.android.movieapp.ui.theme.Spacing
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import agency.five.codebase.android.movieapp.R
 
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil.size.Dimension
 
 data class ActorCardViewState(
     val imageUrl: String?,
@@ -29,55 +30,62 @@ data class ActorCardViewState(
     val character: String,
 )
 
-
 @Composable
 fun ActorCard(
     item: ActorCardViewState,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
 ) {
-    Card (
-        modifier = Modifier
-            .size(width = 125.dp, height = 209.dp)
-            .clip(RoundedCornerShape(10.dp)),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ){
-        Column{
+    val localSpacing = Spacing()
+    Card(
+        modifier = modifier.clip(Shapes.large),
+        elevation = CardDefaults.cardElevation(dimensionResource(id = R.dimen.actorCard_Elevation)),
+    ) {
+        Box {
             AsyncImage(
                 model = item.imageUrl,
                 contentDescription = "Image of ${item.name}",
                 contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Column(
                 modifier = Modifier
-                    .height(136.dp)
-            )
-            Text(
-                text = item.name,
-                fontSize = 14.sp,
-                fontWeight =  FontWeight.Bold,
-                color = Color.Black,
-                modifier = modifier
-                    .padding(start = 7.dp, top = 7.dp)
-                    .height(35.dp)
-                    .width(87.dp)
-            )
-            Text(
-                text = item.character,
-                fontSize = 12.sp,
-                color = Color.Gray,
-                modifier = modifier
-                    .width(125.dp)
-                    .padding(start = 7.dp, top = 5.dp)
-            )
-
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .background(Color.White)
+            ) {
+                Text(
+                    text = item.name,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(
+                            start = localSpacing.small,
+                            end = localSpacing.small,
+                            top = localSpacing.small,
+                            bottom = localSpacing.default
+                        )
+                        .align(Alignment.Start)
+                )
+                Text(
+                    text = item.character,
+                    fontSize = 12.sp,
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .padding(localSpacing.small)
+                        .align(Alignment.Start)
+                )
+            }
         }
     }
 }
 
-
-
 @Preview
 @Composable
-private fun ActorCardPreview(){
+private fun ActorCardPreview() {
     val actor = MoviesMock.getActor();
-    val actorPreview = ActorCardViewState(actor.imageUrl, actor.name, actor.character);
-    ActorCard(item = actorPreview)
+    val actorPreview = ActorCardViewState(
+        actor.imageUrl, actor.name, actor.character,
+    );
+    ActorCard(item = actorPreview, Modifier.size(width = 400.dp, height = 600.dp))
 }
