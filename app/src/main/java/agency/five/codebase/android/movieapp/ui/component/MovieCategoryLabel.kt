@@ -27,6 +27,7 @@ data class MovieCategoryTextStringResource(val category: Int) : MovieCategoryLab
 data class MovieCategoryLabelViewState(
     val itemId: Int,
     val categoryText: MovieCategoryLabelTextViewState,
+    val
 )
 
 @Composable
@@ -36,6 +37,33 @@ fun MovieCategoryLabel(
     onClick: () -> Unit,
     modifier: Modifier
 ) {
+
+    Column(
+        modifier = modifier
+            .clickable { onClick(movieCategoryLabelUiState) }
+            .width(Pick right width here so that line is the same size as text),
+    ) {
+        Text(
+            text = when (item.categoryText) {
+                is MovieCategoryTextString -> item.categoryText.category;
+                is MovieCategoryTextStringResource -> stringResource(id = item.categoryText.category)
+            },
+            fontSize = 16.sp,
+//            textDecoration = if (state.value) TextDecoration.Underline else TextDecoration.None,
+            fontWeight = if (state.value) FontWeight.Bold else FontWeight.Normal,
+            color = if (state.value) Color.Black else Color.Gray
+        )
+
+        Box(
+            modifier = Modifier
+                .padding(top = MaterialTheme.spacing.extraSmall)
+                .background(switch colors based on state)
+                .add appropirate width (don't hardcode it!)
+                .height(add desired height)
+            )
+    }
+
+    ///
     Box(
         modifier = modifier
             .clickable { onClick.invoke() }
