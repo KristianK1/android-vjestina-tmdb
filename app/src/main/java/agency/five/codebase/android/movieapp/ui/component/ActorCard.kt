@@ -37,7 +37,7 @@ fun ActorCard(
 ) {
     Card(
         modifier = modifier
-            .clip(Shapes.large)
+            .clip(Shapes.large),
         elevation = CardDefaults.cardElevation(dimensionResource(id = R.dimen.actorCard_Elevation)),
     ) {
         Column {
