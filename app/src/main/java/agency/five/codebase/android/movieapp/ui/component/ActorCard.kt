@@ -36,49 +36,44 @@ fun ActorCard(
     modifier: Modifier,
 ) {
     Card(
-        modifier = modifier.clip(Shapes.large),
+        modifier = modifier
+            .clip(Shapes.large)
         elevation = CardDefaults.cardElevation(dimensionResource(id = R.dimen.actorCard_Elevation)),
     ) {
-        Box {
+        Column {
             AsyncImage(
                 model = item.imageUrl,
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = "Image of ${item.name}",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .background(Color.White)
-            ) {
-                Text(
-                    text = item.name,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(
-                            start = MaterialTheme.spacing.small,
-                            end = MaterialTheme.spacing.small,
-                            top = MaterialTheme.spacing.small,
-                            bottom = MaterialTheme.spacing.default
-                        )
-                        .align(Alignment.Start)
-                )
-                Text(
-                    text = item.character,
-                    fontSize = 12.sp,
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .padding(MaterialTheme.spacing.small)
-                        .align(Alignment.Start)
-                )
-            }
+                    .weight(1f, true)
+            )
+            Text(
+                text = item.name,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(
+                        start = MaterialTheme.spacing.small,
+                        end = MaterialTheme.spacing.small,
+                        top = MaterialTheme.spacing.small,
+                        bottom = MaterialTheme.spacing.default
+                    )
+            )
+            Text(
+                text = item.character,
+                fontSize = 12.sp,
+                color = Color.Gray,
+                modifier = Modifier
+                    .padding(MaterialTheme.spacing.small)
+            )
         }
     }
 }
+
 
 @Preview
 @Composable
@@ -87,5 +82,5 @@ private fun ActorCardPreview() {
     val actorPreview = ActorCardViewState(
         actor.imageUrl, actor.name, actor.character,
     );
-    ActorCard(item = actorPreview, Modifier.size(width = 400.dp, height = 600.dp))
+    ActorCard(item = actorPreview, Modifier.size(width = 300.dp, height = 580.dp))
 }
