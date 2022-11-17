@@ -1,8 +1,10 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.ui.theme.Spacing
+import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,6 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Alignment
 
+
+private const val STARTING_POSITION_OF_CIRCLE = -90f
+private const val FULL_CIRClE = 360f
+
 @Composable
 fun UserScoreProgressBar(
     percentage: Float,
@@ -22,7 +28,7 @@ fun UserScoreProgressBar(
     color: Color,
     strokeWidth: Float,
 ) {
-    val localSpacing = Spacing()
+
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -30,12 +36,12 @@ fun UserScoreProgressBar(
         Canvas(
             modifier = modifier
                 .fillMaxSize()
-                .padding(localSpacing.extraSmall)
+                .padding(MaterialTheme.spacing.extraSmall)
         ) {
             drawArc(
                 color = color,
-                startAngle = -90f,
-                sweepAngle = 360f * percentage,
+                startAngle = STARTING_POSITION_OF_CIRCLE,
+                sweepAngle = FULL_CIRClE * percentage,
                 useCenter = false,
                 style = Stroke(
                     width = strokeWidth, cap = StrokeCap.Round
@@ -65,5 +71,5 @@ private fun UserScoreProgressBarPreview() {
         modifier = Modifier.size(60.dp),
         color = Color.Green,
         strokeWidth = 15f
-    );
+    )
 }

@@ -4,7 +4,6 @@ import agency.five.codebase.android.movieapp.mock.MoviesMock
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -19,8 +18,9 @@ fun CrewmanItem(
     item: CrewmanItemViewState,
 ) {
     Column() {
-        Text(
-            text = item.name, fontSize = 14.sp, fontWeight = FontWeight.Bold
+        Text(text = item.name,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
         )
         Text(
             text = item.job,

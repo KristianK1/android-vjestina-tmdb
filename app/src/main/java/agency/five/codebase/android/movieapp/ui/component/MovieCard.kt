@@ -1,17 +1,9 @@
 package agency.five.codebase.android.movieapp.ui.component
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
-import agency.five.codebase.android.movieapp.model.Movie
-import agency.five.codebase.android.movieapp.ui.theme.Spacing
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -21,22 +13,23 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.theme.Shapes
-import androidx.compose.ui.res.dimensionResource
+import agency.five.codebase.android.movieapp.ui.theme.spacing
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.*
 
 data class MovieCardViewState(
     val title: String,
     val imageUrl: String?,
-);
+    val isFavorite: Boolean,
+    );
 
 @Composable
 fun MovieCard(
     item: MovieCardViewState,
     modifier: Modifier,
-    isFavorite: MutableState<Boolean>,
     onClickMovieItem: () -> Unit,
     onClickLikeButton: () -> Unit
 ) {
-    val localSpacing = Spacing()
     Card(
         modifier = modifier
             .clip(Shapes.large)
@@ -53,9 +46,8 @@ fun MovieCard(
             FavoriteButton(
                 onClick = onClickLikeButton,
                 modifier = Modifier
-                    .padding(localSpacing.small)
-                    .size(dimensionResource(id = R.dimen.favoriteBt_size_in_movieCard)),
-                state = isFavorite
+                    .padding(MaterialTheme.spacing.small),
+                state = item.isFavorite
             )
         }
     }
@@ -63,23 +55,22 @@ fun MovieCard(
 
 @Preview
 @Composable
-fun previewMovieCard() {
+fun PreviewMovieCard() {
     val movie = MoviesMock.getMoviesList()[0];
-    val state = remember {
-        mutableStateOf(false)
-    }
-    val moviePreview = MovieCardViewState(
-        movie.title, movie.imageUrl
-    )
 
-    MovieCard(item = moviePreview,
-        modifier = Modifier.size(200.dp, 350.dp),
-        isFavorite = state,
+    var movieState by remember {
+      mutableStateOf(
+          MovieCardViewState(
+              movie.title, movie.imageUrl, false
+          )
+      )
+    }
+
+    MovieCard(item = movieState,
+        modifier = Modifier.size(100.dp, 170.dp),
         onClickMovieItem = {
-            Log.i("clicked", "clicked movie card")
         },
         onClickLikeButton = {
-            Log.i("clicked", "like button")
-            state.value = !state.value
+            movieState = movieState.copy(isFavorite = !movieState.isFavorite)
         })
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="actorCard_Elevation">2.dp</dimen>
-    <dimen name="favoriteBt_size_in_movieCard">50.dp</dimen>
+    <dimen name="movie_category_label_underline_height">5.dp</dimen>
 </resources>
