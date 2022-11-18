@@ -1,6 +1,5 @@
 package agency.five.codebase.android.movieapp.ui.component
 
-import agency.five.codebase.android.movieapp.ui.theme.Spacing
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*

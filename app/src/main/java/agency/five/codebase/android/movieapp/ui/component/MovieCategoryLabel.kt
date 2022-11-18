@@ -13,10 +13,8 @@ import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import agency.five.codebase.android.movieapp.R
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 
 sealed class MovieCategoryLabelTextViewState();
 
