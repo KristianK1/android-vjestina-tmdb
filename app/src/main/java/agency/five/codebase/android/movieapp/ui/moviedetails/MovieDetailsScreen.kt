@@ -8,6 +8,7 @@ import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -53,77 +54,107 @@ fun MovieDetailsScreen(
     movieDetailsViewState: MovieDetailsViewState,
 ) {
     Column(
-//            modifier = Modifier
-//                .verticalScroll(rememberScrollState())
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
 //                .weight(weight = 1f, fill = true)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(350.dp)
-                .background(Color.Cyan)
-        ) {
-            AsyncImage(
-                model = movieDetailsViewState.imageUrl,
-                contentDescription = "${movieDetailsViewState.title} - Movie image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth()
-            )
+        MovieHeader(movieDetailsViewState)
+        MovieOverview(movieDetailsViewState)
+        MovieCrew(movieDetailsViewState)
+        MovieCast(movieDetailsViewState)
+    }
+}
 
-            Column(
+@Composable
+fun MovieHeader(
+    movieDetailsViewState: MovieDetailsViewState,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(350.dp)
+            .background(Color.Cyan)
+    ) {
+        AsyncImage(
+            model = movieDetailsViewState.imageUrl,
+            contentDescription = "${movieDetailsViewState.title} - Movie image",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(MaterialTheme.spacing.medium)
+        ) {
+            UserScoreProgressBar(
+                percentage = movieDetailsViewState.voteAverage / 10,
+                value = movieDetailsViewState.voteAverage,
+                color = Color.Green,
+                strokeWidth = 12f,
+                modifier = Modifier.size(60.dp)
+            )
+            Spacer(
+                modifier = Modifier.height(MaterialTheme.spacing.small)
+            )
+            Text(
+                text = movieDetailsViewState.title,
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp,
                 modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(MaterialTheme.spacing.medium)
-            ) {
-                UserScoreProgressBar(
-                    percentage = movieDetailsViewState.voteAverage / 10,
-                    value = movieDetailsViewState.voteAverage,
-                    color = Color.Green,
-                    strokeWidth = 12f,
-                    modifier = Modifier.size(60.dp)
-                )
-                Spacer(
-                    modifier = Modifier.height(MaterialTheme.spacing.small)
-                )
-                Text(
-                    text = movieDetailsViewState.title,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 28.sp,
-                    modifier = Modifier
-                )
-                Spacer(
-                    modifier = Modifier.height(MaterialTheme.spacing.medium)
-                )
-                FavoriteButton(
-                    onClick = {
-                        Log.i("click - detail like", "clicked like")
-                    },
-                    state = movieDetailsViewState.isFavorite,
-                )
-            }
+            )
+            Spacer(
+                modifier = Modifier.height(MaterialTheme.spacing.medium)
+            )
+            FavoriteButton(
+                onClick = {
+                    Log.i("click - detail like", "clicked like")
+                },
+                state = movieDetailsViewState.isFavorite,
+            )
         }
-        Text(
-            text = "Overview",
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .padding(
-                    MaterialTheme.spacing.medium,
-                    MaterialTheme.spacing.medium,
-                    MaterialTheme.spacing.medium,
-                    0.dp
-                )
-        )
-        Text(
-            text = movieDetailsViewState.overview,
-            modifier = Modifier
-                .padding(
-                    MaterialTheme.spacing.medium,
-                    MaterialTheme.spacing.extraSmall,
-                    MaterialTheme.spacing.medium,
-                    MaterialTheme.spacing.extraSmall
-                )
-        )
+    }
+}
+
+@Composable
+fun MovieOverview(
+    movieDetailsViewState: MovieDetailsViewState,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = "Overview",
+        fontWeight = FontWeight.Bold,
+        color = Color.Black,
+        modifier = Modifier
+            .padding(
+                MaterialTheme.spacing.medium,
+                MaterialTheme.spacing.medium,
+                MaterialTheme.spacing.medium,
+                0.dp
+            )
+    )
+    Text(
+        text = movieDetailsViewState.overview,
+        modifier = Modifier
+            .padding(
+                MaterialTheme.spacing.medium,
+                MaterialTheme.spacing.extraSmall,
+                MaterialTheme.spacing.medium,
+                MaterialTheme.spacing.extraSmall
+            )
+    )
+}
+
+@Composable
+fun MovieCrew(
+    movieDetailsViewState: MovieDetailsViewState,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = Modifier
+            .heightIn(min = 50.dp, max = 400.dp)
+    ) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(110.dp),
             userScrollEnabled = false,
@@ -135,7 +166,9 @@ fun MovieDetailsScreen(
                     0.dp,
                 )
         ) {
-            items(items = movieDetailsViewState.crew) { crewman ->
+            items(
+                items = movieDetailsViewState.crew,
+            ) { crewman ->
 
                 Box(
                     modifier = Modifier
@@ -145,32 +178,39 @@ fun MovieDetailsScreen(
                 }
             }
         }
-        Text(
-            text = "Top Billed Cast",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+    }
+}
+
+@Composable
+fun MovieCast(
+    movieDetailsViewState: MovieDetailsViewState,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = "Top Billed Cast",
+        fontSize = 20.sp,
+        fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(
                     MaterialTheme.spacing.medium,
                     MaterialTheme.spacing.small
                 )
-        )
-        LazyRow() {
-            items(
-                items = movieDetailsViewState.cast
-            ) { actor ->
-                Box(
+    )
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+        contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
+    ) {
+        items(
+            items = movieDetailsViewState.cast
+        ) { actor ->
+            Box() {
+                ActorCard(
+                    item = actor,
                     modifier = Modifier
-                        .padding(MaterialTheme.spacing.medium, 0.dp)
-                ) {
-                    ActorCard(
-                        item = actor,
-                        modifier = Modifier.size(width = 150.dp, height = 240.dp)
-                    )
-                }
+                        .size(width = 150.dp, height = 280.dp)
+                )
             }
         }
-//        }
     }
 }
 
