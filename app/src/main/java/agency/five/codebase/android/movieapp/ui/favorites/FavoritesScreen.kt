@@ -70,10 +70,8 @@ fun FavoritesScreen(
                     .size(100.dp, 220.dp)
                     .padding(MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.medium),
                 onClickMovieItem = {
-                    Log.i("click", "" + movie.id + " " + movie.movieCardViewState.title)
                 },
                 onClickLikeButton = {
-                    Log.i("click - like", "" + movie.id + " " + movie.movieCardViewState.title)
                 })
         }
     }
