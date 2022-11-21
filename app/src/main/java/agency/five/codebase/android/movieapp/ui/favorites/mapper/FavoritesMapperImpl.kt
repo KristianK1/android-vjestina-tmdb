@@ -9,7 +9,7 @@ class FavoritesMapperImpl: FavoritesMapper {
     override fun toFavoritesViewState(favoriteMovies: List<Movie>): FavoritesViewState {
         val list: MutableList<FavoritesMovieViewState> = mutableListOf()
         for(movie in favoriteMovies){
-            list.add(FavoritesMovieViewState(movie.id, MovieCardViewState(movie.title,movie.imageUrl, movie.isFavorite)))
+            list.add(FavoritesMovieViewState(movie.id, MovieCardViewState(movie.imageUrl, movie.isFavorite)))
         }
         return FavoritesViewState(list)
     }
