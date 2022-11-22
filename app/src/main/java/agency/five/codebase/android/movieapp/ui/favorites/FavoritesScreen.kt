@@ -1,6 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.favorites
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
+import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
@@ -32,16 +33,17 @@ val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMovi
 
 @Composable
 fun FavoritesRoute(
-// actions
+    onNavigateToMovieDetails: (String) -> Unit,
 ) {
     val favorites by remember { mutableStateOf(favoritesViewState) }
     FavoritesScreen(
         favorites,
+        onNavigateToMovieDetails
     )
 }
 
 fun LazyGridScope.header(
-    content: @Composable LazyGridItemScope.() -> Unit
+    content: @Composable LazyGridItemScope.() -> Unit,
 ) {
     item(span = { GridItemSpan(this.maxLineSpan) }, content = content)
 }
@@ -49,6 +51,7 @@ fun LazyGridScope.header(
 @Composable
 fun FavoritesScreen(
     favorites: FavoritesViewState,
+    onNavigateToMovieDetails: (String) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(130.dp),
@@ -70,6 +73,7 @@ fun FavoritesScreen(
                     .size(100.dp, 220.dp)
                     .padding(MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.medium),
                 onClickMovieItem = {
+                    onNavigateToMovieDetails(MovieDetailsDestination.createNavigationRoute(movie.id))
                 },
                 onClickLikeButton = {
                 })
@@ -82,7 +86,8 @@ fun FavoritesScreen(
 fun FavoritesScreenPreview() {
     MovieAppTheme {
         FavoritesScreen(
-            favoritesViewState
+            favoritesViewState,
+            onNavigateToMovieDetails = { }
         )
     }
 }

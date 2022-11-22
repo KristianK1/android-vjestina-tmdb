@@ -2,4 +2,6 @@
 <resources>
     <dimen name="actorCard_Elevation">2.dp</dimen>
     <dimen name="movie_category_label_underline_height">5.dp</dimen>
+    <dimen name="TopbarHeight">40.dp</dimen>
+    <dimen name="navBarHeight">40.dp</dimen>
 </resources>

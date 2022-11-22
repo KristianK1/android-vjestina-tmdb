@@ -2,12 +2,11 @@ package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.model.MovieCategory
+import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
 import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapperImpl
-import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsScreen
 import agency.five.codebase.android.movieapp.ui.theme.spacing
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.util.stream.IntStream.range
 
 private val homeScreenMapper: HomeScreenMapper = HomeScreenMapperImpl()
 
@@ -46,13 +44,49 @@ val upcomingCategoryViewState =
     ), selectedMovieCategory = MovieCategory.UPCOMING_TODAY, movies = MoviesMock.getMoviesList())
 
 @Composable
-fun MovieDetailsRoute(
-// actions
+fun HomeRoute(
+    onNavigateToMovieDetails: (String) -> Unit,
 ) {
+    var popularViewState by remember { mutableStateOf(popularCategoryViewState) }
+    var playingViewState by remember { mutableStateOf(nowPlayingCategoryViewState) }
+    var upcomingViewState by remember { mutableStateOf(upcomingCategoryViewState) }
 
-//    HomeScreen(
-//        popularViewState, playingViewState, upcomingViewState, {}
-//    )
+    HomeScreen(
+        popularViewState,
+        playingViewState,
+        upcomingViewState,
+        onCategoryClick = { category ->
+            if (category.itemId in 0..3)
+                popularViewState =
+                    homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
+                        MovieCategory.POPULAR_STREAMING,
+                        MovieCategory.POPULAR_ON_TV,
+                        MovieCategory.POPULAR_FOR_RENT,
+                        MovieCategory.POPULAR_IN_THEATRES),
+                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
+                        movies = MoviesMock.getMoviesList()
+                    )
+            else if (category.itemId in 4..5)
+                playingViewState =
+                    homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
+                        MovieCategory.PLAYING_MOVIES,
+                        MovieCategory.PLAYING_TV,
+                    ),
+                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
+                        movies = MoviesMock.getMoviesList()
+                    )
+            else
+                upcomingViewState =
+                    homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
+                        MovieCategory.UPCOMING_TODAY,
+                        MovieCategory.UPCOMING_THIS_WEEK,
+                    ),
+                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
+                        movies = MoviesMock.getMoviesList()
+                    )
+        },
+        onMovieClick = onNavigateToMovieDetails,
+    )
 }
 
 @Composable
@@ -61,21 +95,30 @@ fun HomeScreen(
     playingViewState: HomeMovieCategoryViewState,
     upcomingViewState: HomeMovieCategoryViewState,
     onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
+    onMovieClick: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
 //                .weight(weight = 1f, fill = true)
     ) {
-        HomeScreenMovieCategory(movieCategoryViewState = popularViewState,
+        HomeScreenMovieCategory(
+            movieCategoryViewState = popularViewState,
             categoryName = "What's popular",
-            onCategoryClick = onCategoryClick)
+            onCategoryClick = onCategoryClick,
+            onMovieClick = onMovieClick,
+        )
         HomeScreenMovieCategory(movieCategoryViewState = playingViewState,
             categoryName = "Free to watch",
-            onCategoryClick = onCategoryClick)
-        HomeScreenMovieCategory(movieCategoryViewState = upcomingViewState,
+            onCategoryClick = onCategoryClick,
+            onMovieClick = onMovieClick
+        )
+        HomeScreenMovieCategory(
+            movieCategoryViewState = upcomingViewState,
             categoryName = "Trending",
-            onCategoryClick = onCategoryClick)
+            onCategoryClick = onCategoryClick,
+            onMovieClick = onMovieClick,
+        )
     }
 }
 
@@ -84,6 +127,7 @@ fun HomeScreenMovieCategory(
     movieCategoryViewState: HomeMovieCategoryViewState,
     categoryName: String,
     onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
+    onMovieClick: (String) -> Unit,
 ) {
     Text(
         text = categoryName,
@@ -128,7 +172,7 @@ fun HomeScreenMovieCategory(
                 ),
                     modifier = Modifier
                         .size(width = 150.dp, height = 250.dp),
-                    onClickMovieItem = { /*TODO*/ },
+                    onClickMovieItem = { onMovieClick(MovieDetailsDestination.createNavigationRoute(movie.id)) },
                     onClickLikeButton = { }
                 )
             }
@@ -176,5 +220,6 @@ fun PreviewHomeScreen() {
                         movies = MoviesMock.getMoviesList()
                     )
         }
+    ,{}
     )
 }

@@ -9,4 +9,6 @@
     <string name="playing_tv">TV</string>
     <string name="trending_today">Today</string>
     <string name="trending_this_week">This week</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
 </resources>
