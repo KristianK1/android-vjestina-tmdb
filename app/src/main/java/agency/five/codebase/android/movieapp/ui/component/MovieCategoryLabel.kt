@@ -25,7 +25,6 @@ data class MovieCategoryLabelViewState(
     val itemId: Int,
     val isSelected: Boolean,
     val categoryText: MovieCategoryLabelTextViewState,
-
     )
 
 @Composable

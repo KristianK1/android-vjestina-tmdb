@@ -26,14 +26,14 @@ data class MovieCardViewState(
 @Composable
 fun MovieCard(
     item: MovieCardViewState,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onClickMovieItem: () -> Unit,
     onClickLikeButton: () -> Unit
 ) {
     Card(
         modifier = modifier
             .clip(Shapes.large)
-            .clickable { onClickMovieItem.invoke() },
+            .clickable { onClickMovieItem() },
     ) {
         Box {
             AsyncImage(

@@ -4,6 +4,7 @@ import agency.five.codebase.android.movieapp.mock.MoviesMock
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -16,7 +17,8 @@ data class CrewmanItemViewState(
 @Composable
 fun CrewmanItem(
     item: CrewmanItemViewState,
-) {
+    modifier: Modifier = Modifier,
+    ) {
     Column() {
         Text(
             text = item.name,

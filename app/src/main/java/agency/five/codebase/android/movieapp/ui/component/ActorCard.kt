@@ -31,7 +31,7 @@ data class ActorCardViewState(
 @Composable
 fun ActorCard(
     item: ActorCardViewState,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier
