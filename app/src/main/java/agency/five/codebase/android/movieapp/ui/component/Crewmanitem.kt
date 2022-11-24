@@ -18,7 +18,8 @@ fun CrewmanItem(
     item: CrewmanItemViewState,
 ) {
     Column() {
-        Text(text = item.name,
+        Text(
+            text = item.name,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold
         )

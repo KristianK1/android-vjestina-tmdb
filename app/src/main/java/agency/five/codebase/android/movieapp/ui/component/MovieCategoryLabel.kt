@@ -71,11 +71,8 @@ fun MovieCategoryLabelPreview() {
             )
         )
     }
-
     val onClick = { item: MovieCategoryLabelViewState ->
         movieCategoryViewState = movieCategoryViewState.copy(isSelected = !item.isSelected)
     }
-
     MovieCategoryLabel(movieCategoryViewState, onClick, Modifier)
-
 }
