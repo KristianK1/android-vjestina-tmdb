@@ -6,7 +6,6 @@ import agency.five.codebase.android.movieapp.ui.component.MovieCard
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
 import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
-import android.util.Log
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -18,12 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import agency.five.codebase.android.movieapp.ui.theme.spacing
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.ui.res.stringResource
+import agency.five.codebase.android.movieapp.R
 
 
 private val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
@@ -34,11 +32,13 @@ val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMovi
 @Composable
 fun FavoritesRoute(
     onNavigateToMovieDetails: (String) -> Unit,
+    onClickLikeButton: (Int) -> Unit,
 ) {
     val favorites by remember { mutableStateOf(favoritesViewState) }
     FavoritesScreen(
         favorites,
-        onNavigateToMovieDetails
+        onNavigateToMovieDetails,
+        onClickLikeButton,
     )
 }
 
@@ -52,6 +52,7 @@ fun LazyGridScope.header(
 fun FavoritesScreen(
     favorites: FavoritesViewState,
     onNavigateToMovieDetails: (String) -> Unit,
+    onClickLikeButton: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(130.dp),
@@ -59,15 +60,17 @@ fun FavoritesScreen(
     ) {
         header {
             Text(
-                text = "Favorites",
+                text = stringResource(R.string.favorites_screen_header),
                 fontWeight = FontWeight.Bold,
                 fontSize = 45.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        items(items = favorites.list, key = { movie ->
-            movie.id
-        }) { movie ->
+        items(
+            items = favorites.list,
+            key = { movie ->
+                movie.id
+            }) { movie ->
             MovieCard(item = movie.movieCardViewState,
                 modifier = Modifier
                     .size(100.dp, 220.dp)
@@ -76,6 +79,7 @@ fun FavoritesScreen(
                     onNavigateToMovieDetails(MovieDetailsDestination.createNavigationRoute(movie.id))
                 },
                 onClickLikeButton = {
+                    onClickLikeButton(movie.id)
                 })
         }
     }
@@ -87,7 +91,8 @@ fun FavoritesScreenPreview() {
     MovieAppTheme {
         FavoritesScreen(
             favoritesViewState,
-            onNavigateToMovieDetails = { }
+            onNavigateToMovieDetails = { },
+            onClickLikeButton = { },
         )
     }
 }

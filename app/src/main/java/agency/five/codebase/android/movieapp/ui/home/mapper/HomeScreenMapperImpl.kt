@@ -17,27 +17,27 @@ class HomeScreenMapperImpl : HomeScreenMapper {
         selectedMovieCategory: MovieCategory,
         movies: List<Movie>,
     ): HomeMovieCategoryViewState {
-        val movieCategoriesViewStates = mutableListOf<MovieCategoryLabelViewState>()
-        movieCategories.forEach { movieCategory ->
-            movieCategoriesViewStates.add(MovieCategoryLabelViewState(
+
+        val movieCategoriesViewStates = movieCategories.map { movieCategory ->
+            MovieCategoryLabelViewState(
                 itemId = movieCategory.ordinal,
                 isSelected = movieCategory == selectedMovieCategory,
                 categoryText = MovieCategoryTextStringResource(getMovieCategoryName(movieCategory)),
-            ))
+            )
         }
-        val moviesViewState = mutableListOf<HomeMovieViewState>()
-        movies.forEach { movie ->
-            moviesViewState.add(HomeMovieViewState(
+
+        val moviesViewState = movies.map { movie ->
+            HomeMovieViewState(
                 id = movie.id,
                 imageUrl = movie.imageUrl,
                 isFavorite = movie.isFavorite,
-            ))
+            )
         }
+
         return HomeMovieCategoryViewState(
             movieCategoriesViewStates,
             moviesViewState
         )
-
     }
 
     fun getMovieCategoryName(category: MovieCategory): Int {

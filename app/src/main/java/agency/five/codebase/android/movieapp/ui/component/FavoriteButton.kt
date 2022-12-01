@@ -23,7 +23,8 @@ fun FavoriteButton(
     state: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Image(painter = painterResource(id = if (state) R.drawable.full_heart else R.drawable.empty_heart),
+    Image(
+        painter = painterResource(id = if (state) R.drawable.full_heart else R.drawable.empty_heart),
         contentDescription = "Favorite button",
         modifier
             .size(32.dp)

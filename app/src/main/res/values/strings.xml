@@ -11,4 +11,12 @@
     <string name="trending_this_week">This week</string>
     <string name="home">Home</string>
     <string name="favorites">Favorites</string>
+
+    <string name="favorites_screen_header">Favorites</string>
+    <string name="whatsPopularCategoryTitle">What\'s popular</string>
+    <string name="freeToWatchTitle">Free to watch</string>
+    <string name="trendingTitle">Trending</string>
+
+    <string name="topBilledCast">Top billed cast</string>
+
 </resources>

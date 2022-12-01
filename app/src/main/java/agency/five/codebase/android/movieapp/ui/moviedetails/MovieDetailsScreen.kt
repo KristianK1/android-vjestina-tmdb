@@ -1,12 +1,12 @@
 package agency.five.codebase.android.movieapp.ui.moviedetails
 
+import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapper
 import agency.five.codebase.android.movieapp.ui.moviedetails.mapper.MovieDetailsMapperImpl
 import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import agency.five.codebase.android.movieapp.ui.theme.spacing
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,19 +46,24 @@ fun MovieDetailsRoute(
     val movieDetails by remember { mutableStateOf(movieDetailViewState) }
     MovieDetailsScreen(
         movieDetails,
+        onClickLikeButton = { }
     )
 }
 
 @Composable
 fun MovieDetailsScreen(
     movieDetailsViewState: MovieDetailsViewState,
+    onClickLikeButton: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
 //                .weight(weight = 1f, fill = true)
     ) {
-        MovieHeader(movieDetailsViewState)
+        MovieHeader(
+            movieDetailsViewState = movieDetailsViewState,
+            onClickLikeButton = onClickLikeButton
+        )
         MovieOverview(movieDetailsViewState)
         MovieCrew(movieDetailsViewState)
         MovieCast(movieDetailsViewState)
@@ -67,7 +73,8 @@ fun MovieDetailsScreen(
 @Composable
 fun MovieHeader(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickLikeButton: (Int) -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -108,7 +115,7 @@ fun MovieHeader(
             )
             FavoriteButton(
                 onClick = {
-                    Log.i("click - detail like", "clicked like")
+                    onClickLikeButton(movieDetailsViewState.id)
                 },
                 state = movieDetailsViewState.isFavorite,
             )
@@ -119,7 +126,7 @@ fun MovieHeader(
 @Composable
 fun MovieOverview(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         text = "Overview",
@@ -148,7 +155,7 @@ fun MovieOverview(
 @Composable
 fun MovieCrew(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = Modifier
@@ -183,17 +190,17 @@ fun MovieCrew(
 @Composable
 fun MovieCast(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
-        text = "Top Billed Cast",
+        text = stringResource(id = R.string.topBilledCast),
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(
-                    MaterialTheme.spacing.medium,
-                    MaterialTheme.spacing.small
-                )
+        modifier = Modifier
+            .padding(
+                MaterialTheme.spacing.medium,
+                MaterialTheme.spacing.small
+            )
     )
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
@@ -202,7 +209,7 @@ fun MovieCast(
         items(
             items = movieDetailsViewState.cast
         ) { actor ->
-            Box() {
+            Box {
                 ActorCard(
                     item = actor,
                     modifier = Modifier
@@ -218,7 +225,8 @@ fun MovieCast(
 fun PreviewMovieDetailScreen() {
     MovieAppTheme {
         MovieDetailsScreen(
-            movieDetailViewState
+            movieDetailsViewState = movieDetailViewState,
+            onClickLikeButton = { }
         )
     }
 }

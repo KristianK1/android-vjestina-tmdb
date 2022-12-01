@@ -1,5 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.home
 
+import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
@@ -16,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,34 +58,33 @@ fun HomeRoute(
         playingViewState,
         upcomingViewState,
         onCategoryClick = { category ->
-            if (category.itemId in 0..3)
-                popularViewState =
+            when (category.itemId) {
+                in 0..3 -> popularViewState =
                     homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
                         MovieCategory.POPULAR_STREAMING,
                         MovieCategory.POPULAR_ON_TV,
                         MovieCategory.POPULAR_FOR_RENT,
                         MovieCategory.POPULAR_IN_THEATRES),
-                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
+                        selectedMovieCategory = MovieCategory.values()[category.itemId],
                         movies = MoviesMock.getMoviesList()
                     )
-            else if (category.itemId in 4..5)
-                playingViewState =
+                in 4..5 -> playingViewState =
                     homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
                         MovieCategory.PLAYING_MOVIES,
                         MovieCategory.PLAYING_TV,
                     ),
-                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
+                        selectedMovieCategory = MovieCategory.values()[category.itemId],
                         movies = MoviesMock.getMoviesList()
                     )
-            else
-                upcomingViewState =
+                else -> upcomingViewState =
                     homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
                         MovieCategory.UPCOMING_TODAY,
                         MovieCategory.UPCOMING_THIS_WEEK,
                     ),
-                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
+                        selectedMovieCategory = MovieCategory.values()[category.itemId],
                         movies = MoviesMock.getMoviesList()
                     )
+            }
         },
         onMovieClick = onNavigateToMovieDetails,
     )
@@ -104,18 +105,18 @@ fun HomeScreen(
     ) {
         HomeScreenMovieCategory(
             movieCategoryViewState = popularViewState,
-            categoryName = "What's popular",
+            categoryName = stringResource(id = R.string.whatsPopularCategoryTitle),
             onCategoryClick = onCategoryClick,
             onMovieClick = onMovieClick,
         )
         HomeScreenMovieCategory(movieCategoryViewState = playingViewState,
-            categoryName = "Free to watch",
+            categoryName = stringResource(id = R.string.freeToWatchTitle),
             onCategoryClick = onCategoryClick,
             onMovieClick = onMovieClick
         )
         HomeScreenMovieCategory(
             movieCategoryViewState = upcomingViewState,
-            categoryName = "Trending",
+            categoryName = stringResource(id = R.string.trendingTitle),
             onCategoryClick = onCategoryClick,
             onMovieClick = onMovieClick,
         )
@@ -144,7 +145,7 @@ fun HomeScreenMovieCategory(
         items(
             items = movieCategoryViewState.movieCategories
         ) { category ->
-            Box() {
+            Box {
                 MovieCategoryLabel(
                     item = category,
                     onClick = { onCategoryClick(category) }
@@ -165,14 +166,16 @@ fun HomeScreenMovieCategory(
         items(
             items = movieCategoryViewState.movies
         ) { movie ->
-            Box() {
+            Box {
                 MovieCard(item = MovieCardViewState(
                     imageUrl = movie.imageUrl,
                     isFavorite = movie.isFavorite,
                 ),
                     modifier = Modifier
                         .size(width = 150.dp, height = 250.dp),
-                    onClickMovieItem = { onMovieClick(MovieDetailsDestination.createNavigationRoute(movie.id)) },
+                    onClickMovieItem = {
+                        onMovieClick(MovieDetailsDestination.createNavigationRoute(movie.id))
+                    },
                     onClickLikeButton = { }
                 )
             }
@@ -191,35 +194,36 @@ fun PreviewHomeScreen() {
         playingViewState = playingViewState,
         upcomingViewState = upcomingViewState,
         onCategoryClick = { category ->
-            if (category.itemId in 0..3)
-                popularViewState =
-                    homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
-                        MovieCategory.POPULAR_STREAMING,
-                        MovieCategory.POPULAR_ON_TV,
-                        MovieCategory.POPULAR_FOR_RENT,
-                        MovieCategory.POPULAR_IN_THEATRES),
-                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
-                        movies = MoviesMock.getMoviesList()
-                    )
-            else if (category.itemId in 4..5)
-                playingViewState =
-                    homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
-                        MovieCategory.PLAYING_MOVIES,
-                        MovieCategory.PLAYING_TV,
-                    ),
-                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
-                        movies = MoviesMock.getMoviesList()
-                    )
-            else
-                upcomingViewState =
-                    homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
-                        MovieCategory.UPCOMING_TODAY,
-                        MovieCategory.UPCOMING_THIS_WEEK,
-                    ),
-                        selectedMovieCategory = MovieCategory.values().get(category.itemId),
-                        movies = MoviesMock.getMoviesList()
-                    )
-        }
-    ,{}
+            when (category.itemId) {
+                in 0..3 ->
+                    popularViewState =
+                        homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
+                            MovieCategory.POPULAR_STREAMING,
+                            MovieCategory.POPULAR_ON_TV,
+                            MovieCategory.POPULAR_FOR_RENT,
+                            MovieCategory.POPULAR_IN_THEATRES),
+                            selectedMovieCategory = MovieCategory.values()[category.itemId],
+                            movies = MoviesMock.getMoviesList()
+                        )
+                in 4..5 ->
+                    playingViewState =
+                        homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
+                            MovieCategory.PLAYING_MOVIES,
+                            MovieCategory.PLAYING_TV,
+                        ),
+                            selectedMovieCategory = MovieCategory.values()[category.itemId],
+                            movies = MoviesMock.getMoviesList()
+                        )
+                in 5..7 ->
+                    upcomingViewState =
+                        homeScreenMapper.toHomeMovieCategoryViewState(movieCategories = listOf(
+                            MovieCategory.UPCOMING_TODAY,
+                            MovieCategory.UPCOMING_THIS_WEEK,
+                        ),
+                            selectedMovieCategory = MovieCategory.values()[category.itemId],
+                            movies = MoviesMock.getMoviesList()
+                        )
+            }
+        }, {}
     )
 }

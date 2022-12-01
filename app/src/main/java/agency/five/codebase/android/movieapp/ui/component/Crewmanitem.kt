@@ -19,7 +19,7 @@ fun CrewmanItem(
     item: CrewmanItemViewState,
     modifier: Modifier = Modifier,
     ) {
-    Column() {
+    Column {
         Text(
             text = item.name,
             fontSize = 14.sp,

@@ -1,9 +1,7 @@
 package agency.five.codebase.android.movieapp.ui.main
 
 import agency.five.codebase.android.movieapp.R
-import agency.five.codebase.android.movieapp.navigation.MOVIE_ID_KEY
-import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
-import agency.five.codebase.android.movieapp.navigation.NavigationItem
+import agency.five.codebase.android.movieapp.navigation.*
 import agency.five.codebase.android.movieapp.ui.favorites.FavoritesRoute
 import agency.five.codebase.android.movieapp.ui.home.HomeRoute
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
@@ -31,14 +29,18 @@ import androidx.navigation.navArgument
 fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    var showBottomBar by remember { mutableStateOf(navController.currentDestination == null) }
+    val showBottomBar by remember {
+        derivedStateOf {
+            navBackStackEntry?.destination?.route == HOME_ROUTE || navBackStackEntry?.destination?.route == FAVORITES_ROUTE
+        }
+    }
     val showBackIcon = !showBottomBar
     Scaffold(
         topBar = {
             TopBar(
                 navigationIcon = {
                     if (showBackIcon) BackIcon(onBackClick = {
-                        showBottomBar = true
+//                        showBottomBar = true
                         navController.popBackStack()
                     })
                 }
@@ -74,7 +76,7 @@ fun MainScreen() {
                 composable(NavigationItem.HomeDestination.route) {
                     HomeRoute(
                         onNavigateToMovieDetails = { route ->
-                            showBottomBar = false
+//                            showBottomBar = false
                             navController.navigate(route)
                         }
                     )
@@ -82,9 +84,10 @@ fun MainScreen() {
                 composable(NavigationItem.FavoritesDestination.route) {
                     FavoritesRoute(
                         onNavigateToMovieDetails = { route ->
-                            showBottomBar = false
+//                            showBottomBar = false
                             navController.navigate(route)
-                        }
+                        },
+                        onClickLikeButton = { }
                     )
                 }
                 composable(
