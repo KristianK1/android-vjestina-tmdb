@@ -1,6 +1,7 @@
 package agency.five.codebase.android.movieapp
 
 import agency.five.codebase.android.movieapp.ui.favorites.di.favoritesModule
+import agency.five.codebase.android.movieapp.ui.home.di.homeModule
 import agency.five.codebase.android.movieapp.ui.moviedetails.di.movieDetailsModule
 import android.app.Application
 import android.util.Log
@@ -11,7 +12,7 @@ class MovieApp : Application() {
         super.onCreate()
         Log.d("MovieApp", "App started")
         startKoin{
-            modules(favoritesModule, movieDetailsModule)
+            modules(favoritesModule, movieDetailsModule, homeModule)
         }
     }
 }
