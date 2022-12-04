@@ -3,6 +3,7 @@ package agency.five.codebase.android.movieapp.ui.moviedetails.mapper
 import agency.five.codebase.android.movieapp.model.MovieDetails
 import agency.five.codebase.android.movieapp.ui.component.ActorCardViewState
 import agency.five.codebase.android.movieapp.ui.component.CrewmanItemViewState
+import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewState
 
 class MovieDetailsMapperImpl : MovieDetailsMapper {
