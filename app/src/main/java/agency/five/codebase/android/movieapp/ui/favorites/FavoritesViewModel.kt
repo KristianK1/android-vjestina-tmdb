@@ -25,6 +25,9 @@ class FavoritesViewModel(
         }
     }
 
-    fun someAction() {
+    fun toggleFavorite(id: Int) {
+        viewModelScope.launch(){
+            movieRepository.toggleFavorite(id)
+        }
     }
 }
