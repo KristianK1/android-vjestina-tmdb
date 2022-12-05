@@ -35,6 +35,7 @@ fun HomeRoute(
         upcomingViewState,
         viewModel::switchCategories,
         onMovieClick = onNavigateToMovieDetails,
+        onLikeClick = viewModel::toggleFavorite
     )
 }
 
@@ -45,6 +46,7 @@ fun HomeScreen(
     upcomingViewState: HomeMovieCategoryViewState,
     onCategoryClick: (Int) -> Unit,
     onMovieClick: (String) -> Unit,
+    onLikeClick: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -56,17 +58,20 @@ fun HomeScreen(
             categoryName = stringResource(id = R.string.whatsPopularCategoryTitle),
             onCategoryClick = onCategoryClick,
             onMovieClick = onMovieClick,
+            onLikeClick = onLikeClick,
         )
         HomeScreenMovieCategory(movieCategoryViewState = playingViewState,
             categoryName = stringResource(id = R.string.freeToWatchTitle),
             onCategoryClick = onCategoryClick,
-            onMovieClick = onMovieClick
+            onMovieClick = onMovieClick,
+            onLikeClick = onLikeClick,
         )
         HomeScreenMovieCategory(
             movieCategoryViewState = upcomingViewState,
             categoryName = stringResource(id = R.string.trendingTitle),
             onCategoryClick = onCategoryClick,
             onMovieClick = onMovieClick,
+            onLikeClick = onLikeClick,
         )
     }
 }
@@ -77,6 +82,7 @@ fun HomeScreenMovieCategory(
     categoryName: String,
     onCategoryClick: (Int) -> Unit,
     onMovieClick: (String) -> Unit,
+    onLikeClick: (Int) -> Unit,
 ) {
     Text(
         text = categoryName,
@@ -124,7 +130,7 @@ fun HomeScreenMovieCategory(
                     onClickMovieItem = {
                         onMovieClick(MovieDetailsDestination.createNavigationRoute(movie.id))
                     },
-                    onClickLikeButton = { }
+                    onClickLikeButton = { onLikeClick(movie.id) }
                 )
             }
         }

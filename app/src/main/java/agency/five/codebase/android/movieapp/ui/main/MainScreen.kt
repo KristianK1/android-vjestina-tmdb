@@ -3,8 +3,11 @@ package agency.five.codebase.android.movieapp.ui.main
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.navigation.*
 import agency.five.codebase.android.movieapp.ui.favorites.FavoritesRoute
+import agency.five.codebase.android.movieapp.ui.favorites.FavoritesViewModel
 import agency.five.codebase.android.movieapp.ui.home.HomeRoute
+import agency.five.codebase.android.movieapp.ui.home.HomeViewModel
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
+import agency.five.codebase.android.movieapp.ui.moviedetails.di.MovieDetailsViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +27,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MainScreen() {
@@ -35,6 +40,11 @@ fun MainScreen() {
         }
     }
     val showBackIcon = !showBottomBar
+
+    val favoritesViewModel = getViewModel<FavoritesViewModel>()
+    val homeViewModel = getViewModel<HomeViewModel>()
+    val movieDetailsViewModel = getViewModel<MovieDetailsViewModel>()
+
     Scaffold(
         topBar = {
             TopBar(
@@ -76,25 +86,29 @@ fun MainScreen() {
                 composable(NavigationItem.HomeDestination.route) {
                     HomeRoute(
                         onNavigateToMovieDetails = { route ->
-//                            showBottomBar = false
                             navController.navigate(route)
-                        }
+                        },
+                        homeViewModel
                     )
                 }
                 composable(NavigationItem.FavoritesDestination.route) {
                     FavoritesRoute(
                         onNavigateToMovieDetails = { route ->
-//                            showBottomBar = false
                             navController.navigate(route)
                         },
-                        onClickLikeButton = { }
+                        favoritesViewModel
                     )
                 }
                 composable(
                     route = MovieDetailsDestination.route,
                     arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType }),
-                ) {
-                    MovieDetailsRoute()
+                ) { navBackStackEntry ->
+                    var id: Int? = navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)
+                    if (id == null) id = 0
+                    movieDetailsViewModel.getMovieDetails(id)
+                    MovieDetailsRoute(
+                        movieDetailsViewModel
+                    )
                 }
             }
         }
@@ -130,7 +144,8 @@ private fun BackIcon(
     modifier: Modifier = Modifier,
 ) {
     Image(painter = painterResource(
-        id = R.drawable.backicon),
+        id = R.drawable.backicon
+    ),
         contentDescription = "back button",
         modifier = modifier
             .clickable { onBackClick() }
@@ -152,8 +167,10 @@ private fun BottomNavigationBar(
                 BottomNavigationItem(
                     selected = currentDestination?.route == destination.route,
                     icon = {
-                        Icon(painter = painterResource(if (currentDestination?.route == destination.route) destination.selectedIconId else destination.unselectedIconId),
-                            contentDescription = "icon")
+                        Icon(
+                            painter = painterResource(if (currentDestination?.route == destination.route) destination.selectedIconId else destination.unselectedIconId),
+                            contentDescription = "icon"
+                        )
                     },
                     label = {
                         Text(text = stringResource(id = destination.labelId))
