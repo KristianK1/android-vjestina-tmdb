@@ -17,6 +17,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -101,7 +102,6 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-//                .weight(weight = 1f, fill = true)
     ) {
         HomeScreenMovieCategory(
             movieCategoryViewState = popularViewState,
@@ -130,54 +130,59 @@ fun HomeScreenMovieCategory(
     onCategoryClick: (MovieCategoryLabelViewState) -> Unit,
     onMovieClick: (String) -> Unit,
 ) {
-    Text(
-        text = categoryName,
-        fontSize = 26.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier
-            .padding(MaterialTheme.spacing.medium)
-    )
+    Column{
+        Text(
+            text = categoryName,
+            fontSize = 26.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(MaterialTheme.spacing.medium)
+        )
 
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-        contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
-    ) {
-        items(
-            items = movieCategoryViewState.movieCategories
-        ) { category ->
-            Box {
-                MovieCategoryLabel(
-                    item = category,
-                    onClick = { onCategoryClick(category) }
-                )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+            contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
+        ) {
+            items(
+                items = movieCategoryViewState.movieCategories
+            ) { category ->
+                Box {
+                    MovieCategoryLabel(
+                        item = category,
+                        onClick = { onCategoryClick(category) }
+                    )
+                }
             }
         }
-    }
 
-    Spacer(
-        modifier = Modifier
-            .height(MaterialTheme.spacing.medium)
-    )
+        Spacer(
+            modifier = Modifier
+                .height(MaterialTheme.spacing.medium)
+        )
 
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
-        contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
-    ) {
-        items(
-            items = movieCategoryViewState.movies
-        ) { movie ->
-            Box {
-                MovieCard(item = MovieCardViewState(
-                    imageUrl = movie.imageUrl,
-                    isFavorite = movie.isFavorite,
-                ),
-                    modifier = Modifier
-                        .size(width = 150.dp, height = 250.dp),
-                    onClickMovieItem = {
-                        onMovieClick(MovieDetailsDestination.createNavigationRoute(movie.id))
-                    },
-                    onClickLikeButton = { }
-                )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
+            contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
+        ) {
+            items(
+                items = movieCategoryViewState.movies
+            ) { movie ->
+                Box {
+                    MovieCard(item = MovieCardViewState(
+                        imageUrl = movie.imageUrl,
+                        isFavorite = movie.isFavorite,
+                    ),
+                        modifier = Modifier
+                            .size(
+                                width = dimensionResource(id = R.dimen.home_screen_movie_card_width), 
+                                height = dimensionResource(id = R.dimen.home_screen_movie_card_height)
+                            ),
+                        onClickMovieItem = {
+                            onMovieClick(MovieDetailsDestination.createNavigationRoute(movie.id))
+                        },
+                        onClickLikeButton = { }
+                    )
+                }
             }
         }
     }

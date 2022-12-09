@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.layout.*
@@ -22,11 +21,10 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.res.stringResource
 import agency.five.codebase.android.movieapp.R
+import androidx.compose.ui.res.dimensionResource
 
 
 private val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
-
-// multiple view states if required
 val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMoviesList())
 
 @Composable
@@ -55,7 +53,7 @@ fun FavoritesScreen(
     onClickLikeButton: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(130.dp),
+        columns = GridCells.Adaptive(minSize = dimensionResource(id = R.dimen.favorites_screen_grid_cell_min_size)),
         modifier = Modifier.padding(MaterialTheme.spacing.small)
     ) {
         header {
@@ -73,7 +71,10 @@ fun FavoritesScreen(
             }) { movie ->
             MovieCard(item = movie.movieCardViewState,
                 modifier = Modifier
-                    .size(100.dp, 220.dp)
+                    .size(
+                        width = dimensionResource(id = R.dimen.favorites_screen_movie_card_width),
+                        height = dimensionResource(id = R.dimen.favorites_screen_movie_card_height)
+                    )
                     .padding(MaterialTheme.spacing.extraSmall, MaterialTheme.spacing.medium),
                 onClickMovieItem = {
                     onNavigateToMovieDetails(MovieDetailsDestination.createNavigationRoute(movie.id))

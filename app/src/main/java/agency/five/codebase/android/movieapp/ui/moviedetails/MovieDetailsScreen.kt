@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,15 +34,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
+private const val USER_CORE_STROKE_WIDTH = 12f
 
 private val movieDetailsMapper: MovieDetailsMapper = MovieDetailsMapperImpl()
-
-// multiple view states if required
 val movieDetailViewState = movieDetailsMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails())
 
 @Composable
 fun MovieDetailsRoute(
-// actions
 ) {
     val movieDetails by remember { mutableStateOf(movieDetailViewState) }
     MovieDetailsScreen(
@@ -58,7 +57,6 @@ fun MovieDetailsScreen(
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-//                .weight(weight = 1f, fill = true)
     ) {
         MovieHeader(
             movieDetailsViewState = movieDetailsViewState,
@@ -79,7 +77,7 @@ fun MovieHeader(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(350.dp)
+            .height(dimensionResource(id = R.dimen.movie_details_screen_header_height))
             .background(Color.Cyan)
     ) {
         AsyncImage(
@@ -98,8 +96,8 @@ fun MovieHeader(
                 percentage = movieDetailsViewState.voteAverage / 10,
                 value = movieDetailsViewState.voteAverage,
                 color = Color.Green,
-                strokeWidth = 12f,
-                modifier = Modifier.size(60.dp)
+                strokeWidth = USER_CORE_STROKE_WIDTH,
+                modifier = Modifier.size(dimensionResource(id = R.dimen.movie_details_screen_user_score_size))
             )
             Spacer(
                 modifier = Modifier.height(MaterialTheme.spacing.small)
@@ -128,28 +126,30 @@ fun MovieOverview(
     movieDetailsViewState: MovieDetailsViewState,
     modifier: Modifier = Modifier,
 ) {
-    Text(
-        text = "Overview",
-        fontWeight = FontWeight.Bold,
-        color = Color.Black,
-        modifier = Modifier
-            .padding(
-                MaterialTheme.spacing.medium,
-                MaterialTheme.spacing.medium,
-                MaterialTheme.spacing.medium,
-                0.dp
-            )
-    )
-    Text(
-        text = movieDetailsViewState.overview,
-        modifier = Modifier
-            .padding(
-                MaterialTheme.spacing.medium,
-                MaterialTheme.spacing.extraSmall,
-                MaterialTheme.spacing.medium,
-                MaterialTheme.spacing.extraSmall
-            )
-    )
+    Column {
+        Text(
+            text = "Overview",
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier
+                .padding(
+                    MaterialTheme.spacing.medium,
+                    MaterialTheme.spacing.medium,
+                    MaterialTheme.spacing.medium,
+                    0.dp
+                )
+        )
+        Text(
+            text = movieDetailsViewState.overview,
+            modifier = Modifier
+                .padding(
+                    MaterialTheme.spacing.medium,
+                    MaterialTheme.spacing.extraSmall,
+                    MaterialTheme.spacing.medium,
+                    MaterialTheme.spacing.extraSmall
+                )
+        )
+    }
 }
 
 @Composable
@@ -162,7 +162,7 @@ fun MovieCrew(
             .heightIn(min = 50.dp, max = 400.dp)
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(110.dp),
+            columns = GridCells.Adaptive(dimensionResource(id = R.dimen.movie_details_screen_crew_grid_cell_min_size)),
             userScrollEnabled = false,
             modifier = Modifier
                 .padding(
@@ -192,29 +192,34 @@ fun MovieCast(
     movieDetailsViewState: MovieDetailsViewState,
     modifier: Modifier = Modifier,
 ) {
-    Text(
-        text = stringResource(id = R.string.topBilledCast),
-        fontSize = 20.sp,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier
-            .padding(
-                MaterialTheme.spacing.medium,
-                MaterialTheme.spacing.small
-            )
-    )
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
-        contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
-    ) {
-        items(
-            items = movieDetailsViewState.cast
-        ) { actor ->
-            Box {
-                ActorCard(
-                    item = actor,
-                    modifier = Modifier
-                        .size(width = 150.dp, height = 280.dp)
+    Column {
+        Text(
+            text = stringResource(id = R.string.topBilledCast),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(
+                    MaterialTheme.spacing.medium,
+                    MaterialTheme.spacing.small
                 )
+        )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
+            contentPadding = PaddingValues(MaterialTheme.spacing.medium, 0.dp)
+        ) {
+            items(
+                items = movieDetailsViewState.cast
+            ) { actor ->
+                Box {
+                    ActorCard(
+                        item = actor,
+                        modifier = Modifier
+                            .size(
+                                width = dimensionResource(id = R.dimen.movie_details_screen_actor_card_width),
+                                height = dimensionResource(id = R.dimen.movie_details_screen_actor_card_height)
+                            )
+                    )
+                }
             }
         }
     }

@@ -40,7 +40,6 @@ fun MainScreen() {
             TopBar(
                 navigationIcon = {
                     if (showBackIcon) BackIcon(onBackClick = {
-//                        showBottomBar = true
                         navController.popBackStack()
                     })
                 }
@@ -76,7 +75,6 @@ fun MainScreen() {
                 composable(NavigationItem.HomeDestination.route) {
                     HomeRoute(
                         onNavigateToMovieDetails = { route ->
-//                            showBottomBar = false
                             navController.navigate(route)
                         }
                     )
@@ -84,7 +82,6 @@ fun MainScreen() {
                 composable(NavigationItem.FavoritesDestination.route) {
                     FavoritesRoute(
                         onNavigateToMovieDetails = { route ->
-//                            showBottomBar = false
                             navController.navigate(route)
                         },
                         onClickLikeButton = { }
@@ -142,7 +139,6 @@ private fun BottomNavigationBar(
     destinations: List<NavigationItem>,
     onNavigateToDestination: (NavigationItem) -> Unit,
     currentDestination: NavDestination?,
-//    modifier: Modifier = Modifier.height(30.dp)
 ) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.background,
