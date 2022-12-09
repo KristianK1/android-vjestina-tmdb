@@ -20,7 +20,7 @@ import androidx.compose.runtime.*
 data class MovieCardViewState(
     val imageUrl: String?,
     val isFavorite: Boolean,
-    );
+    )
 
 @Composable
 fun MovieCard(
@@ -55,7 +55,7 @@ fun MovieCard(
 @Preview
 @Composable
 fun PreviewMovieCard() {
-    val movie = MoviesMock.getMoviesList()[0];
+    val movie = MoviesMock.getMoviesList()[0]
 
     var movieState by remember {
       mutableStateOf(

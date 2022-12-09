@@ -16,7 +16,7 @@ import agency.five.codebase.android.movieapp.R
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.dimensionResource
 
-sealed class MovieCategoryLabelTextViewState();
+sealed class MovieCategoryLabelTextViewState
 
 data class MovieCategoryTextString(val category: String) : MovieCategoryLabelTextViewState()
 data class MovieCategoryTextStringResource(val category: Int) : MovieCategoryLabelTextViewState()
@@ -41,7 +41,7 @@ fun MovieCategoryLabel(
     {
         Text(
             text = when (item.categoryText) {
-                is MovieCategoryTextString -> item.categoryText.category;
+                is MovieCategoryTextString -> item.categoryText.category
                 is MovieCategoryTextStringResource -> stringResource(id = item.categoryText.category)
             },
             fontSize = 16.sp,

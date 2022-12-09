@@ -3,7 +3,6 @@ package agency.five.codebase.android.movieapp.ui.component
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.theme.Blue
 import agency.five.codebase.android.movieapp.ui.theme.spacing
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

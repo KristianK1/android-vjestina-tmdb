@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 
-private const val USER_CORE_STROKE_WIDTH = 12f
+private const val USER_SCORE_STROKE_WIDTH = 12f
 
 private val movieDetailsMapper: MovieDetailsMapper = MovieDetailsMapperImpl()
 val movieDetailViewState = movieDetailsMapper.toMovieDetailsViewState(MoviesMock.getMovieDetails())
@@ -71,7 +71,6 @@ fun MovieDetailsScreen(
 @Composable
 fun MovieHeader(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier,
     onClickLikeButton: (Int) -> Unit,
 ) {
     Box(
@@ -96,7 +95,7 @@ fun MovieHeader(
                 percentage = movieDetailsViewState.voteAverage / 10,
                 value = movieDetailsViewState.voteAverage,
                 color = Color.Green,
-                strokeWidth = USER_CORE_STROKE_WIDTH,
+                strokeWidth = USER_SCORE_STROKE_WIDTH,
                 modifier = Modifier.size(dimensionResource(id = R.dimen.movie_details_screen_user_score_size))
             )
             Spacer(
@@ -124,7 +123,6 @@ fun MovieHeader(
 @Composable
 fun MovieOverview(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier,
 ) {
     Column {
         Text(
@@ -155,7 +153,6 @@ fun MovieOverview(
 @Composable
 fun MovieCrew(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = Modifier
@@ -190,7 +187,6 @@ fun MovieCrew(
 @Composable
 fun MovieCast(
     movieDetailsViewState: MovieDetailsViewState,
-    modifier: Modifier = Modifier,
 ) {
     Column {
         Text(
