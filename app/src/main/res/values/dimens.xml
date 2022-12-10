@@ -4,4 +4,20 @@
     <dimen name="movie_category_label_underline_height">5.dp</dimen>
     <dimen name="TopbarHeight">40.dp</dimen>
     <dimen name="navBarHeight">40.dp</dimen>
+
+    <dimen name="favorites_screen_grid_cell_min_size">130.dp</dimen>
+    <dimen name="favorites_screen_movie_card_height">220.dp</dimen>
+    <dimen name="favorites_screen_movie_card_width">100.dp</dimen>
+
+    <dimen name="home_screen_movie_card_height">250.dp</dimen>
+    <dimen name="home_screen_movie_card_width">150.dp</dimen>
+
+    <dimen name="movie_details_screen_header_height">350.dp</dimen>
+
+    <dimen name="movie_details_screen_user_score_size">60.dp</dimen>
+    <dimen name="movie_details_screen_crew_grid_cell_min_size">110.dp</dimen>
+
+    <dimen name="movie_details_screen_actor_card_height">280.dp</dimen>
+    <dimen name="movie_details_screen_actor_card_width">150.dp</dimen>
+
 </resources>

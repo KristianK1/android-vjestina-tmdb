@@ -8,6 +8,7 @@ import agency.five.codebase.android.movieapp.ui.home.HomeRoute
 import agency.five.codebase.android.movieapp.ui.home.HomeViewModel
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
 import agency.five.codebase.android.movieapp.ui.moviedetails.di.MovieDetailsViewModel
+import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -49,10 +50,13 @@ fun MainScreen() {
         topBar = {
             TopBar(
                 navigationIcon = {
-                    if (showBackIcon) BackIcon(onBackClick = {
-//                        showBottomBar = true
-                        navController.popBackStack()
-                    })
+                    if (showBackIcon) BackIcon(
+                        onBackClick = { navController.popBackStack() },
+                        modifier = Modifier.padding(
+                            horizontal = MaterialTheme.spacing.medium,
+                            vertical = MaterialTheme.spacing.small
+                        )
+                    )
                 }
             )
         },
@@ -157,7 +161,6 @@ private fun BottomNavigationBar(
     destinations: List<NavigationItem>,
     onNavigateToDestination: (NavigationItem) -> Unit,
     currentDestination: NavDestination?,
-//    modifier: Modifier = Modifier.height(30.dp)
 ) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.background,
