@@ -18,15 +18,16 @@ class FavoritesViewModel(
     val favoritesViewState: StateFlow<FavoritesViewState> = favoritesViewStateInternal.asStateFlow()
 
     init {
-        viewModelScope.launch{
-            movieRepository.favoriteMovies().collect{ movies ->
-                favoritesViewStateInternal.value = favoritesScreenMapper.toFavoritesViewState(movies)
+        viewModelScope.launch {
+            movieRepository.favoriteMovies().collect { movies ->
+                favoritesViewStateInternal.value =
+                    favoritesScreenMapper.toFavoritesViewState(movies)
             }
         }
     }
 
     fun toggleFavorite(id: Int) {
-        viewModelScope.launch(){
+        viewModelScope.launch {
             movieRepository.toggleFavorite(id)
         }
     }

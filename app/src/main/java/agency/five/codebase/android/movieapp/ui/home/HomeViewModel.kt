@@ -30,9 +30,9 @@ class HomeViewModel(
         MovieCategory.UPCOMING_THIS_WEEK,
     )
 
-    private val popularCategorySelected = MutableStateFlow<MovieCategory>(popularCategories[0])
-    private val nowPlayingCategorySelected = MutableStateFlow<MovieCategory>(nowPlayingCategories[0])
-    private val upcomingCategorySelected = MutableStateFlow<MovieCategory>(upcomingCategories[0])
+    private val popularCategorySelected = MutableStateFlow(popularCategories[0])
+    private val nowPlayingCategorySelected = MutableStateFlow(nowPlayingCategories[0])
+    private val upcomingCategorySelected = MutableStateFlow(upcomingCategories[0])
 
 
     private val popularViewStateInternal: MutableStateFlow<HomeMovieCategoryViewState> =

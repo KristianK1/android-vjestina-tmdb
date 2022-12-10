@@ -2,7 +2,6 @@ package agency.five.codebase.android.movieapp.ui.moviedetails
 
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.ui.component.*
-import agency.five.codebase.android.movieapp.ui.moviedetails.di.MovieDetailsViewModel
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -212,14 +211,3 @@ fun MovieCast(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun PreviewMovieDetailScreen() {
-//    MovieAppTheme {
-//        MovieDetailsScreen(
-//            movieDetailsViewState = movieDetailViewState,
-//            onClickLikeButton = { }
-//        )
-//    }
-//}

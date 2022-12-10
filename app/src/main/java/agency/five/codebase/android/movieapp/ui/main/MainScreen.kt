@@ -7,7 +7,7 @@ import agency.five.codebase.android.movieapp.ui.favorites.FavoritesViewModel
 import agency.five.codebase.android.movieapp.ui.home.HomeRoute
 import agency.five.codebase.android.movieapp.ui.home.HomeViewModel
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
-import agency.five.codebase.android.movieapp.ui.moviedetails.di.MovieDetailsViewModel
+import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewModel
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -29,7 +29,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MainScreen() {

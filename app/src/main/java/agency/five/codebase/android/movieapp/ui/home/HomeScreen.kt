@@ -105,6 +105,7 @@ fun HomeScreenMovieCategory(
                         item = category,
                         onClick = { onCategoryClick(category.itemId) }
                     )
+                }
             }
         }
 
