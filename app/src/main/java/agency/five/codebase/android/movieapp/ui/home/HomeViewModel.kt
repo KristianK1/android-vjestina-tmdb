@@ -52,7 +52,7 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            movieRepository.popularMovies(popularCategorySelected.value).collect { movies ->
+            movieRepository.movies(popularCategorySelected.value).collect { movies ->
                 popularViewStateInternal.value = homeScreenMapper.toHomeMovieCategoryViewState(
                     movieCategories = popularCategories,
                     movies = movies,
@@ -62,7 +62,7 @@ class HomeViewModel(
         }
 
         viewModelScope.launch {
-            movieRepository.nowPlayingMovies(nowPlayingCategorySelected.value).collect { movies ->
+            movieRepository.movies(nowPlayingCategorySelected.value).collect { movies ->
                 nowPlayingViewStateInternal.value = homeScreenMapper.toHomeMovieCategoryViewState(
                     movieCategories = nowPlayingCategories,
                     movies = movies,
@@ -72,7 +72,7 @@ class HomeViewModel(
         }
 
         viewModelScope.launch {
-            movieRepository.upcomingMovies(upcomingCategorySelected.value).collect { movies ->
+            movieRepository.movies(upcomingCategorySelected.value).collect { movies ->
                 upcomingViewStateInternal.value = homeScreenMapper.toHomeMovieCategoryViewState(
                     movieCategories = upcomingCategories,
                     movies = movies,

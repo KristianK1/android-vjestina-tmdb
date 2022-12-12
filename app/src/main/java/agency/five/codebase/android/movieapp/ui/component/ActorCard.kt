@@ -1,6 +1,5 @@
 package agency.five.codebase.android.movieapp.ui.component
 
-import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.ui.theme.Shapes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -73,12 +72,12 @@ fun ActorCard(
 }
 
 
-@Preview
-@Composable
-private fun ActorCardPreview() {
-    val actor = MoviesMock.getActor()
-    val actorPreview = ActorCardViewState(
-        actor.imageUrl, actor.name, actor.character,
-    )
-    ActorCard(item = actorPreview, Modifier.size(width = 300.dp, height = 580.dp))
-}
+//@Preview
+//@Composable
+//private fun ActorCardPreview() {
+//    val actor = MoviesMock.getActor()
+//    val actorPreview = ActorCardViewState(
+//        actor.imageUrl, actor.name, actor.character,
+//    )
+//    ActorCard(item = actorPreview, Modifier.size(width = 300.dp, height = 580.dp))
+//}
