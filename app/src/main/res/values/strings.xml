@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">MovieApp</string>
+
+    <string name="streaming">Streaming</string>
+    <string name="on_tv">On TV</string>
+    <string name="for_rent">For Rent</string>
+    <string name="in_theaters">In theaters</string>
+    <string name="playing_movies">Movies</string>
+    <string name="playing_tv">TV</string>
+    <string name="trending_today">Today</string>
+    <string name="trending_this_week">This week</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+
+    <string name="favorites_screen_header">Favorites</string>
+    <string name="whatsPopularCategoryTitle">What\'s popular</string>
+    <string name="freeToWatchTitle">Free to watch</string>
+    <string name="trendingTitle">Trending</string>
+
+    <string name="topBilledCast">Top billed cast</string>
+
 </resources>

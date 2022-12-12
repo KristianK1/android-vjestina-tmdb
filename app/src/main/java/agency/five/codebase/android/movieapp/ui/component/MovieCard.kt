@@ -18,10 +18,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 
 data class MovieCardViewState(
-    val title: String,
     val imageUrl: String?,
     val isFavorite: Boolean,
-    );
+    )
 
 @Composable
 fun MovieCard(
@@ -39,7 +38,7 @@ fun MovieCard(
             AsyncImage(
                 model = item.imageUrl,
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                contentDescription = item.title,
+                contentDescription = "image",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
@@ -56,12 +55,12 @@ fun MovieCard(
 @Preview
 @Composable
 fun PreviewMovieCard() {
-    val movie = MoviesMock.getMoviesList()[0];
+    val movie = MoviesMock.getMoviesList()[0]
 
     var movieState by remember {
       mutableStateOf(
           MovieCardViewState(
-              movie.title, movie.imageUrl, false
+              movie.imageUrl, false
           )
       )
     }

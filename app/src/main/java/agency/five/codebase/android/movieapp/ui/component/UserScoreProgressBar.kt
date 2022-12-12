@@ -63,7 +63,7 @@ fun UserScoreProgressBar(
 @Preview
 @Composable
 private fun UserScoreProgressBarPreview() {
-    val percentage = 0.15f;
+    val percentage = 0.15f
     UserScoreProgressBar(
         percentage,
         percentage * 10,

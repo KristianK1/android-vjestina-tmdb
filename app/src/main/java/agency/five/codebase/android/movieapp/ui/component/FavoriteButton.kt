@@ -21,7 +21,7 @@ fun FavoriteButton(
     onClick: () -> Unit,
     state: Boolean,
     modifier: Modifier = Modifier,
-    ) {
+) {
     Image(
         painter = painterResource(id = if (state) R.drawable.full_heart else R.drawable.empty_heart),
         contentDescription = "Favorite button",
