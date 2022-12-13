@@ -85,7 +85,6 @@ class HomeViewModel(
 
     fun switchCategories(id: Int) {
         viewModelScope.launch {
-            Log.i("swCat", "$id")
             when (id) {
                 MovieCategory.POPULAR_STREAMING.ordinal,
                 MovieCategory.POPULAR_ON_TV.ordinal,
@@ -107,27 +106,29 @@ class HomeViewModel(
                 MovieCategory.PLAYING_MOVIES.ordinal,
                 -> {
                     nowPlayingCategorySelected.value = MovieCategory.values()[id]
-                    movieRepository.nowPlayingMovies(nowPlayingCategorySelected.value).collect { movies ->
-                        nowPlayingViewStateInternal.value =
-                            homeScreenMapper.toHomeMovieCategoryViewState(
-                                movieCategories = nowPlayingCategories,
-                                movies = movies,
-                                selectedMovieCategory = nowPlayingCategorySelected.value
-                            )
-                    }
+                    movieRepository.nowPlayingMovies(nowPlayingCategorySelected.value)
+                        .collect { movies ->
+                            nowPlayingViewStateInternal.value =
+                                homeScreenMapper.toHomeMovieCategoryViewState(
+                                    movieCategories = nowPlayingCategories,
+                                    movies = movies,
+                                    selectedMovieCategory = nowPlayingCategorySelected.value
+                                )
+                        }
                 }
                 MovieCategory.UPCOMING_TODAY.ordinal,
                 MovieCategory.UPCOMING_THIS_WEEK.ordinal,
                 -> {
                     upcomingCategorySelected.value = MovieCategory.values()[id]
-                    movieRepository.upcomingMovies(upcomingCategorySelected.value).collect { movies ->
-                        upcomingViewStateInternal.value =
-                            homeScreenMapper.toHomeMovieCategoryViewState(
-                                movieCategories = upcomingCategories,
-                                movies = movies,
-                                selectedMovieCategory = upcomingCategorySelected.value
-                            )
-                    }
+                    movieRepository.upcomingMovies(upcomingCategorySelected.value)
+                        .collect { movies ->
+                            upcomingViewStateInternal.value =
+                                homeScreenMapper.toHomeMovieCategoryViewState(
+                                    movieCategories = upcomingCategories,
+                                    movies = movies,
+                                    selectedMovieCategory = upcomingCategorySelected.value
+                                )
+                        }
                 }
             }
         }
