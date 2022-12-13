@@ -9,6 +9,7 @@ import agency.five.codebase.android.movieapp.ui.home.HomeViewModel
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewModel
 import agency.five.codebase.android.movieapp.ui.theme.spacing
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -86,7 +87,9 @@ fun MainScreen() {
                 startDestination = NavigationItem.HomeDestination.route,
                 modifier = Modifier.padding(padding)
             ) {
+                Log.i("kkDebug", "mainScreen-begin")
                 composable(NavigationItem.HomeDestination.route) {
+                    Log.i("kkDebug", "mainScreen-home")
                     HomeRoute(
                         onNavigateToMovieDetails = { route ->
                             navController.navigate(route)
@@ -95,6 +98,7 @@ fun MainScreen() {
                     )
                 }
                 composable(NavigationItem.FavoritesDestination.route) {
+                    Log.i("kkDebug", "mainScreen-favorites")
                     FavoritesRoute(
                         onNavigateToMovieDetails = { route ->
                             navController.navigate(route)
@@ -108,6 +112,7 @@ fun MainScreen() {
                 ) { navBackStackEntry ->
                     var id: Int? = navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)
                     if (id == null) id = 0
+                    Log.i("kkDebug", "mainScreen-details")
                     movieDetailsViewModel.getMovieDetails(id)
                     MovieDetailsRoute(
                         movieDetailsViewModel

@@ -1,14 +1,17 @@
 package agency.five.codebase.android.movieapp.data.repository
 
+import agency.five.codebase.android.movieapp.data.database.DbFavoriteMovie
 import agency.five.codebase.android.movieapp.data.database.FavoriteMovieDao
 import agency.five.codebase.android.movieapp.data.network.MovieService
 import agency.five.codebase.android.movieapp.data.network.model.MovieResponse
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.model.MovieDetails
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
 
 class MovieRepositoryImpl(
     private val movieService: MovieService,
@@ -61,6 +64,10 @@ class MovieRepositoryImpl(
         }
 
     private val favorites = movieDao.favorites().map { dbFavoriteMovies ->
+        Log.i("kkDebug", "new favorites list from db")
+        for (movie in dbFavoriteMovies) {
+            Log.i("kkDebug", "fav${movie.id}")
+        }
         dbFavoriteMovies.map { dbFavoriteMovie ->
             Movie(
                 id = dbFavoriteMovie.id,
@@ -81,7 +88,7 @@ class MovieRepositoryImpl(
         movieDao.favorites()
             .map { favoriteMovies ->
                 apiMovieDetails.toMovieDetails(
-                    isFavorite = favoriteMovies.any{ it.id == apiMovieDetails.id},
+                    isFavorite = favoriteMovies.any { it.id == apiMovieDetails.id },
                     crew = apiMovieCredits.crew,
                     cast = apiMovieCredits.cast,
                 )
@@ -90,19 +97,44 @@ class MovieRepositoryImpl(
 
     override fun favoriteMovies(): Flow<List<Movie>> = favorites
 
-//    private suspend fun findMovie(movieId: Int): Movie {
-//
-//    }
 
-    override suspend fun addMovieToFavorites(movieId: Int) {
+    private suspend fun findMovie(movieId: Int): Movie? {
+        for (movieCategory in MovieCategory.values()) {
+            val movies = movies(movieCategory).first()
+            for (movie in movies) {
+                if (movie.id == movieId) {
+                    return movie
+                }
+            }
+        }
+        return null
+    }
 
-//                movieDao.addFavorites()
+    override suspend fun addMovieToFavorites(movieId: Int, posterUrl: String) {
+        Log.i("kkDebug", "$movieId|$posterUrl")
+        val dbFavoriteMovie = DbFavoriteMovie(id = movieId, posterUrl = posterUrl)
+        movieDao.addFavorites(dbFavoriteMovie)
     }
 
     override suspend fun removeMovieFromFavorites(movieId: Int) {
+        movieDao.removeFavorites(movieId)
     }
 
     override suspend fun toggleFavorite(movieId: Int) {
+        runBlocking {
+            val movie = findMovie(movieId)
+            Log.i("kkDebug", "wer WEER")
+            if (movie != null) {
+                Log.i("kkDebug", "wer WEER2")
+//            val listOfFavorites = mov
+//            Log.i("kkDebug", "wer WEER3")
+//            val isFavorite = listOfFavorites.any { it.id == movieId }
+//            Log.i("kkDebug", "wer $isFavorite")
+                val isFavorite = false
+                if (isFavorite) removeMovieFromFavorites(movieId)
+                else addMovieToFavorites(movieId, movie.imageUrl!!)
+            }
+        }
     }
 
 }
