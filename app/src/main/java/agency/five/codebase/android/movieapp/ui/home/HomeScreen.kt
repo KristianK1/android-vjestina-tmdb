@@ -29,7 +29,6 @@ fun HomeRoute(
     val playingViewState: HomeMovieCategoryViewState by viewModel.nowPlayingViewState.collectAsState()
     val upcomingViewState: HomeMovieCategoryViewState by viewModel.upcomingViewState.collectAsState()
 
-
     HomeScreen(
         popularViewState,
         playingViewState,
@@ -60,7 +59,8 @@ fun HomeScreen(
             onMovieClick = onMovieClick,
             onLikeClick = onLikeClick,
         )
-        HomeScreenMovieCategory(movieCategoryViewState = playingViewState,
+        HomeScreenMovieCategory(
+            movieCategoryViewState = playingViewState,
             categoryName = stringResource(id = R.string.freeToWatchTitle),
             onCategoryClick = onCategoryClick,
             onMovieClick = onMovieClick,

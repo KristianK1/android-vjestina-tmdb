@@ -23,7 +23,7 @@ data class MovieCategoryTextStringResource(val category: Int) : MovieCategoryLab
 
 data class MovieCategoryLabelViewState(
     val itemId: Int,
-    val isSelected: Boolean,
+    var isSelected: Boolean,
     val categoryText: MovieCategoryLabelTextViewState,
     )
 
