@@ -8,11 +8,8 @@ import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.model.MovieDetails
 import android.util.Log
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MovieRepositoryImpl(
     private val movieService: MovieService,
@@ -64,7 +61,7 @@ class MovieRepositoryImpl(
             )
         }
 
-    private val favorites = movieDao.favorites().map { dbFavoriteMovies ->
+    private val favorites = movieDao.favorites().mapLatest { dbFavoriteMovies ->
         Log.i("kkDebug", "new favorites list from db")
         for (movie in dbFavoriteMovies) {
             Log.i("kkDebug", "fav${movie.id}")
@@ -78,7 +75,7 @@ class MovieRepositoryImpl(
                 isFavorite = true,
             )
         }
-    }
+    }.flowOn(bgDispatcher)
 
     override fun movies(movieCategory: MovieCategory): Flow<List<Movie>> =
         moviesByCategory[movieCategory]!!
@@ -127,13 +124,17 @@ class MovieRepositoryImpl(
             Log.i("kkDebug", "wer WEER")
             if (movie != null) {
                 Log.i("kkDebug", "wer WEER2")
-//            val listOfFavorites = mov
-//            Log.i("kkDebug", "wer WEER3")
-//            val isFavorite = listOfFavorites.any { it.id == movieId }
-//            Log.i("kkDebug", "wer $isFavorite")
-                val isFavorite = false
-                if (isFavorite) removeMovieFromFavorites(movieId)
-                else addMovieToFavorites(movieId, movie.imageUrl!!)
+                val listOfFavorites = movieDao.favorites().first()
+                Log.i("kkDebug", "wer WEER3")
+                val isFavorite = listOfFavorites?.any { it.id == movieId }
+                Log.i("kkDebug", "wer $isFavorite")
+                if (isFavorite != null){
+                    if(isFavorite) removeMovieFromFavorites(movieId)
+                    else addMovieToFavorites(movieId, movie.imageUrl!!)
+                }
+                else{
+                    Log.i("kkDebug", "wer is favorite is null")
+                }
             }
         }
 
