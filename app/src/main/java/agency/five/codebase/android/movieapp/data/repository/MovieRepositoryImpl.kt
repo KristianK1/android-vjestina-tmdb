@@ -75,9 +75,18 @@ class MovieRepositoryImpl(
     override fun movies(movieCategory: MovieCategory): Flow<List<Movie>> =
         moviesByCategory[movieCategory]!!
 
-    override fun movieDetails(movieId: Int): Flow<MovieDetails> {
-        TODO("Not yet implemented")
-    }
+    override fun movieDetails(movieId: Int): Flow<MovieDetails> = flow {
+        emit(movieService.fetchMovieDetails(movieId) to movieService.fetchMovieCredits(movieId))
+    }.flatMapLatest { (apiMovieDetails, apiMovieCredits) ->
+        movieDao.favorites()
+            .map { favoriteMovies ->
+                apiMovieDetails.toMovieDetails(
+                    isFavorite = favoriteMovies.any{ it.id == apiMovieDetails.id},
+                    crew = apiMovieCredits.crew,
+                    cast = apiMovieCredits.cast,
+                )
+            }
+    }.flowOn(bgDispatcher)
 
     override fun favoriteMovies(): Flow<List<Movie>> = favorites
 
@@ -87,15 +96,13 @@ class MovieRepositoryImpl(
 
     override suspend fun addMovieToFavorites(movieId: Int) {
 
-    //        movieDao.addFavorites()
+//                movieDao.addFavorites()
     }
 
     override suspend fun removeMovieFromFavorites(movieId: Int) {
-        TODO("Not yet implemented")
     }
 
     override suspend fun toggleFavorite(movieId: Int) {
-        TODO("Not yet implemented")
     }
 
 }

@@ -30,10 +30,10 @@ data class ApiMovieDetails(
     val voteAverage: Float, //was double
     @SerialName("release_date")
     val releaseDate: String? = null,
-    @SerialName("runtime")
-    val runtime: Int,
-    @SerialName("spoken_languages")
-    val languages: List<ApiLanguage>
+//    @SerialName("runtime")
+//    val runtime: Int,
+//    @SerialName("spoken_languages")
+//    val languages: List<ApiLanguage>,
 ) {
     fun toMovie(isFavorite: Boolean): Movie {
         return Movie(
@@ -49,21 +49,21 @@ data class ApiMovieDetails(
         isFavorite: Boolean,
         crew: List<ApiCrewman>,
         cast: List<ApiActor>,
-    ){
-        MovieDetails(
+    ): MovieDetails {
+        return MovieDetails(
             movie = toMovie(isFavorite),
             voteAverage = voteAverage,
             releaseDate = releaseDate,
             language = languages[0].name,
             runtime = runtime,
-            crew = crew.map{ apiCrewman ->
+            crew = crew.map { apiCrewman ->
                 Crewman(
                     id = apiCrewman.id,
                     job = apiCrewman.job,
                     name = apiCrewman.name
                 )
             },
-            cast = cast.map{ apiActor ->
+            cast = cast.map { apiActor ->
                 Actor(
                     id = apiActor.id,
                     name = apiActor.name,
@@ -76,7 +76,15 @@ data class ApiMovieDetails(
 }
 
 @Serializable
-data class ApiLanguage (
+data class ApiLanguage(
     @SerialName("english_name")
+    val name: String,
+)
+
+@Serializable
+data class ApiGenre(
+    @SerialName("id")
+    val id: Int,
+    @SerialName("name")
     val name: String,
 )

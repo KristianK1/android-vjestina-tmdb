@@ -9,5 +9,5 @@ import androidx.room.RoomDatabase
     exportSchema = false
 )
 abstract class MovieAppDatabase : RoomDatabase() {
-    abstract fun getFavoritesMovieDao(): FavoriteMovieDao
+    abstract fun favoritesMovieDao(): FavoriteMovieDao
 }

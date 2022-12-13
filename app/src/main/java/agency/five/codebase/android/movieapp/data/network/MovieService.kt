@@ -13,7 +13,7 @@ interface MovieService {
 
     suspend fun fetchTopRatedMovies(): MovieResponse?
 
-    suspend fun fetchMovieDetails(movieId: Int): ApiMovieDetails?
+    suspend fun fetchMovieDetails(movieId: Int): ApiMovieDetails
 
-    suspend fun fetchMovieCredits(movieId: Int): MovieCreditsResponse?
+    suspend fun fetchMovieCredits(movieId: Int): MovieCreditsResponse
 }

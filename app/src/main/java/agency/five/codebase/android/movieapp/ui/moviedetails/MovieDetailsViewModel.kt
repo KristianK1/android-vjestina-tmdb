@@ -17,7 +17,7 @@ class MovieDetailsViewModel(
     private val movieDetailsViewStateInternal: MutableStateFlow<MovieDetailsViewState> =
         MutableStateFlow(
             MovieDetailsViewState(
-                id = 0,
+                id = 550,
                 imageUrl = null,
                 voteAverage = 0.0f,
                 title = "",
