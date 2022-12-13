@@ -11,6 +11,7 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class MovieRepositoryImpl(
@@ -121,7 +122,7 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun toggleFavorite(movieId: Int) {
-        runBlocking {
+        runBlocking(bgDispatcher) {
             val movie = findMovie(movieId)
             Log.i("kkDebug", "wer WEER")
             if (movie != null) {
@@ -135,6 +136,7 @@ class MovieRepositoryImpl(
                 else addMovieToFavorites(movieId, movie.imageUrl!!)
             }
         }
+
     }
 
 }
