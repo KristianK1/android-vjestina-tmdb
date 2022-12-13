@@ -1,7 +1,7 @@
 package agency.five.codebase.android.movieapp.data.network
 
-import agency.five.codebase.android.movieapp.data.network.model.ApiMovieDetails
 import agency.five.codebase.android.movieapp.data.network.model.MovieCreditsResponse
+import agency.five.codebase.android.movieapp.data.network.model.MovieDetailsResponse
 import agency.five.codebase.android.movieapp.data.network.model.MovieResponse
 import android.util.Log
 import io.ktor.client.*
@@ -45,12 +45,12 @@ class MovieServiceImpl(private val client: HttpClient) : MovieService {
             return httpResponse.body<MovieResponse>()
 //        }
     }
-    override suspend fun fetchMovieDetails(movieId: Int): ApiMovieDetails {
+    override suspend fun fetchMovieDetails(movieId: Int): MovieDetailsResponse {
         Log.i("kkDebug", "one$movieId")
         Log.i("kkDebug", "$BASE_URL/movie/$movieId?api_key=$API_KEY")
         val httpResponse = client.get("$BASE_URL/movie/$movieId?api_key=$API_KEY")
 //        if (httpResponse.status.value in 200..299) {
-            return httpResponse.body<ApiMovieDetails>()
+            return httpResponse.body<MovieDetailsResponse>()
 //        }
     }
     override suspend fun fetchMovieCredits(movieId: Int): MovieCreditsResponse {

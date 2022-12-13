@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import agency.five.codebase.android.movieapp.R
+import agency.five.codebase.android.movieapp.data.network.BASE_IMAGE_URL
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.res.painterResource
@@ -39,7 +40,7 @@ fun ActorCard(
     ) {
         Column {
             AsyncImage(
-                model = item.imageUrl,
+                model = "$BASE_IMAGE_URL${item.imageUrl}",
                 placeholder = painterResource(id = R.drawable.ic_launcher_background),
                 contentDescription = "Image of ${item.name}",
                 contentScale = ContentScale.Crop,

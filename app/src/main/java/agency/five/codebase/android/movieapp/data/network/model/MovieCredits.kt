@@ -1,7 +1,5 @@
 package agency.five.codebase.android.movieapp.data.network.model
 
-import agency.five.codebase.android.movieapp.model.Movie
-import agency.five.codebase.android.movieapp.model.MovieDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

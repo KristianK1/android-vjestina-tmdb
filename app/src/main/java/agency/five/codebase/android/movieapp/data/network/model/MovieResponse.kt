@@ -1,21 +1,18 @@
 package agency.five.codebase.android.movieapp.data.network.model
 
 import agency.five.codebase.android.movieapp.data.network.BASE_IMAGE_URL
-import agency.five.codebase.android.movieapp.model.Actor
-import agency.five.codebase.android.movieapp.model.Crewman
 import agency.five.codebase.android.movieapp.model.Movie
-import agency.five.codebase.android.movieapp.model.MovieDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieResponse(
     @SerialName("results")
-    val movies: List<ApiMovieDetails>,
+    val movies: List<ApiMovieDetailsMultiple>,
 )
 
 @Serializable
-data class ApiMovieDetails(
+data class ApiMovieDetailsMultiple(
     @SerialName("id")
     val id: Int,
     @SerialName("title")
@@ -45,46 +42,34 @@ data class ApiMovieDetails(
         )
     }
 
-    fun toMovieDetails(
-        isFavorite: Boolean,
-        crew: List<ApiCrewman>,
-        cast: List<ApiActor>,
-    ): MovieDetails {
-        return MovieDetails(
-            movie = toMovie(isFavorite),
-            voteAverage = voteAverage,
-            releaseDate = releaseDate,
-            language = languages[0].name,
-            runtime = runtime,
-            crew = crew.map { apiCrewman ->
-                Crewman(
-                    id = apiCrewman.id,
-                    job = apiCrewman.job,
-                    name = apiCrewman.name
-                )
-            },
-            cast = cast.map { apiActor ->
-                Actor(
-                    id = apiActor.id,
-                    name = apiActor.name,
-                    character = apiActor.character,
-                    imageUrl = apiActor.imagePath
-                )
-            }
-        )
-    }
+//    fun toMovieDetails(
+//        isFavorite: Boolean,
+//        crew: List<ApiCrewman>,
+//        cast: List<ApiActor>,
+//        language: String,
+//        runtime: Int,
+//    ): MovieDetails {
+//        return MovieDetails(
+//            movie = toMovie(isFavorite),
+//            voteAverage = voteAverage,
+//            releaseDate = releaseDate,
+//            language = language,
+//            runtime = runtime,
+//            crew = crew.map { apiCrewman ->
+//                Crewman(
+//                    id = apiCrewman.id,
+//                    job = apiCrewman.job,
+//                    name = apiCrewman.name
+//                )
+//            },
+//            cast = cast.map { apiActor ->
+//                Actor(
+//                    id = apiActor.id,
+//                    name = apiActor.name,
+//                    character = apiActor.character,
+//                    imageUrl = apiActor.imagePath
+//                )
+//            }
+//        )
+//    }
 }
-
-@Serializable
-data class ApiLanguage(
-    @SerialName("english_name")
-    val name: String,
-)
-
-@Serializable
-data class ApiGenre(
-    @SerialName("id")
-    val id: Int,
-    @SerialName("name")
-    val name: String,
-)
