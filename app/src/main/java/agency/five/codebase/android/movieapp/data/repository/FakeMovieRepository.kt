@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
 
+
 class FakeMovieRepository(
     private val ioDispatcher: CoroutineDispatcher
 ) : MovieRepository {
@@ -22,8 +23,11 @@ class FakeMovieRepository(
     }.flowOn(ioDispatcher)
 
     override fun popularMovies(movieCategory: MovieCategory) = movies
+
     override fun nowPlayingMovies(movieCategory: MovieCategory) = movies
+
     override fun upcomingMovies(movieCategory: MovieCategory) = movies
+
     override fun movieDetails(movieId: Int): Flow<MovieDetails> =
         FavoritesDBMock.favoriteIds
             .mapLatest { favoriteIds ->
