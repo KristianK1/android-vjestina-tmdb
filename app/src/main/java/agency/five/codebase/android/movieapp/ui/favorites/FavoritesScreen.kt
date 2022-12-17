@@ -24,7 +24,7 @@ fun FavoritesRoute(
     FavoritesScreen(
         favoritesViewState,
         onNavigateToMovieDetails,
-        viewModel::toggleFavorite,
+        viewModel::removeFavorite,
     )
 }
 

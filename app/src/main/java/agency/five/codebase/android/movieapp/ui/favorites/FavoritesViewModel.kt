@@ -10,25 +10,16 @@ import kotlinx.coroutines.launch
 class FavoritesViewModel(
     private val movieRepository: MovieRepository,
     favoritesScreenMapper: FavoritesMapper,
-// other parameters if needed
 ) : ViewModel() {
-    private val favoritesViewStateInternal: MutableStateFlow<FavoritesViewState> = MutableStateFlow(
-        FavoritesViewState(emptyList())
-    )
-    val favoritesViewState: StateFlow<FavoritesViewState> = favoritesViewStateInternal.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            movieRepository.favoriteMovies().collect { movies ->
-                favoritesViewStateInternal.value =
-                    favoritesScreenMapper.toFavoritesViewState(movies)
-            }
-        }
-    }
+    val favoritesViewState: StateFlow<FavoritesViewState> =
+        movieRepository.favoriteMovies().map { movies ->
+            favoritesScreenMapper.toFavoritesViewState(movies)
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, FavoritesViewState.EMPTY())
 
-    fun toggleFavorite(id: Int) {
+    fun removeFavorite(id: Int) {
         viewModelScope.launch {
-            movieRepository.toggleFavorite(id)
+            movieRepository.removeMovieFromFavorites(id)
         }
     }
 }
