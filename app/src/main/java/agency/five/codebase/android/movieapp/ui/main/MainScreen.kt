@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MainScreen() {
@@ -40,10 +41,6 @@ fun MainScreen() {
         }
     }
     val showBackIcon = !showBottomBar
-
-    val favoritesViewModel = getViewModel<FavoritesViewModel>()
-    val homeViewModel = getViewModel<HomeViewModel>()
-    val movieDetailsViewModel = getViewModel<MovieDetailsViewModel>()
 
     Scaffold(
         topBar = {
@@ -91,7 +88,7 @@ fun MainScreen() {
                         onNavigateToMovieDetails = { route ->
                             navController.navigate(route)
                         },
-                        homeViewModel
+                        viewModel = getViewModel<HomeViewModel>(),
                     )
                 }
                 composable(NavigationItem.FavoritesDestination.route) {
@@ -99,18 +96,19 @@ fun MainScreen() {
                         onNavigateToMovieDetails = { route ->
                             navController.navigate(route)
                         },
-                        favoritesViewModel
+                        viewModel = getViewModel<FavoritesViewModel>(),
                     )
                 }
                 composable(
                     route = MovieDetailsDestination.route,
                     arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType }),
                 ) { navBackStackEntry ->
-                    var id: Int? = navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)
-                    if (id == null) id = 0
-                    movieDetailsViewModel.getMovieDetails(id)
                     MovieDetailsRoute(
-                        movieDetailsViewModel
+                        viewModel = getViewModel {
+                            parametersOf(
+                                navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)?: throw Throwable("no movieId sent")
+                            )
+                        },
                     )
                 }
             }
