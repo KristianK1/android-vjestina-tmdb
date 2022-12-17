@@ -38,7 +38,7 @@ class HomeViewModel(
 
     val popularViewState: StateFlow<HomeMovieCategoryViewState> =
         popularCategorySelected.flatMapLatest { selected ->
-            movieRepository.popularMovies(selected).map { movies ->
+            movieRepository.movies(selected).map { movies ->
                 homeScreenMapper.toHomeMovieCategoryViewState(
                     movieCategories = popularCategories,
                     selectedMovieCategory = selected,
@@ -49,7 +49,7 @@ class HomeViewModel(
 
     val nowPlayingViewState: StateFlow<HomeMovieCategoryViewState> =
         nowPlayingCategorySelected.flatMapLatest { selected ->
-            movieRepository.nowPlayingMovies(selected).map { movies ->
+            movieRepository.movies(selected).map { movies ->
                 homeScreenMapper.toHomeMovieCategoryViewState(
                     movieCategories = nowPlayingCategories,
                     selectedMovieCategory = selected,
@@ -60,7 +60,7 @@ class HomeViewModel(
 
     val upcomingViewState: StateFlow<HomeMovieCategoryViewState> =
         upcomingCategorySelected.flatMapLatest { selected ->
-            movieRepository.upcomingMovies(selected).map { movies ->
+            movieRepository.movies(selected).map { movies ->
                 homeScreenMapper.toHomeMovieCategoryViewState(
                     movieCategories = upcomingCategories,
                     selectedMovieCategory = selected,
