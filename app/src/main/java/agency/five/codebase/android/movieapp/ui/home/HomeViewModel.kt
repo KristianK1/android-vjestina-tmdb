@@ -3,12 +3,10 @@ package agency.five.codebase.android.movieapp.ui.home
 import agency.five.codebase.android.movieapp.data.repository.MovieRepository
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.home.mapper.HomeScreenMapper
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.lang.Thread.State
 
 class HomeViewModel(
     private val movieRepository: MovieRepository,
@@ -45,7 +43,7 @@ class HomeViewModel(
                     movies = movies,
                 )
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeMovieCategoryViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HomeMovieCategoryViewState.EMPTY())
 
     val nowPlayingViewState: StateFlow<HomeMovieCategoryViewState> =
         nowPlayingCategorySelected.flatMapLatest { selected ->
@@ -56,7 +54,7 @@ class HomeViewModel(
                     movies = movies,
                 )
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeMovieCategoryViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HomeMovieCategoryViewState.EMPTY())
 
     val upcomingViewState: StateFlow<HomeMovieCategoryViewState> =
         upcomingCategorySelected.flatMapLatest { selected ->
@@ -67,7 +65,7 @@ class HomeViewModel(
                     movies = movies,
                 )
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeMovieCategoryViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HomeMovieCategoryViewState.EMPTY())
 
 
     fun switchCategories(id: Int) {

@@ -7,7 +7,6 @@ import agency.five.codebase.android.movieapp.ui.favorites.FavoritesViewModel
 import agency.five.codebase.android.movieapp.ui.home.HomeRoute
 import agency.five.codebase.android.movieapp.ui.home.HomeViewModel
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
-import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewModel
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -110,7 +109,7 @@ fun MainScreen() {
                     MovieDetailsRoute(
                         viewModel = getViewModel {
                             parametersOf(
-                                navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)?: throw Throwable("no movieId sent")
+                                navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)?: throw IllegalStateException ("no movieId sent")
                             )
                         },
                     )

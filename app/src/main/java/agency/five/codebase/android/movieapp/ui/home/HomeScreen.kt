@@ -4,7 +4,6 @@ import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
 import agency.five.codebase.android.movieapp.ui.component.*
 import agency.five.codebase.android.movieapp.ui.theme.spacing
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -49,12 +48,6 @@ fun HomeScreen(
     onMovieClick: (String) -> Unit,
     onLikeClick: (Int) -> Unit,
 ) {
-    Log.i("homeDebug", "tu sam")
-
-    for (cat in popularViewState.movieCategories) {
-        Log.i("homeDebug", "" + cat.itemId)
-        Log.i("homeDebug", "" + cat.isSelected)
-    }
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())

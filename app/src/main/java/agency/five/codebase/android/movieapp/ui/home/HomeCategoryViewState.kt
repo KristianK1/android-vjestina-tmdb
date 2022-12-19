@@ -1,7 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.home
 
 import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabelViewState
-import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsViewState
 
 data class HomeMovieCategoryViewState(
     val movieCategories: List<MovieCategoryLabelViewState> = listOf(),
