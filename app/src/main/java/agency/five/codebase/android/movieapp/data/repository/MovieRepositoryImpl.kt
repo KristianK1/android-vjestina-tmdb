@@ -7,7 +7,6 @@ import agency.five.codebase.android.movieapp.data.network.model.MovieResponse
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.model.MovieDetails
-import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -62,10 +61,6 @@ class MovieRepositoryImpl(
         }
 
     private val favorites = movieDao.favorites().mapLatest { dbFavoriteMovies ->
-        Log.i("kkDebug", "new favorites list from db")
-        for (movie in dbFavoriteMovies) {
-            Log.i("kkDebug", "fav${movie.id}")
-        }
         dbFavoriteMovies.map { dbFavoriteMovie ->
             Movie(
                 id = dbFavoriteMovie.id,
@@ -109,7 +104,6 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun addMovieToFavorites(movieId: Int, posterUrl: String) {
-        Log.i("kkDebug", "$movieId|$posterUrl")
         val dbFavoriteMovie = DbFavoriteMovie(id = movieId, posterUrl = posterUrl)
         movieDao.addFavorites(dbFavoriteMovie)
     }
@@ -121,20 +115,11 @@ class MovieRepositoryImpl(
     override suspend fun toggleFavorite(movieId: Int) {
         runBlocking(bgDispatcher) {
             val movie = findMovie(movieId)
-            Log.i("kkDebug", "wer WEER")
             if (movie != null) {
-                Log.i("kkDebug", "wer WEER2")
                 val listOfFavorites = movieDao.favorites().first()
-                Log.i("kkDebug", "wer WEER3")
-                val isFavorite = listOfFavorites?.any { it.id == movieId }
-                Log.i("kkDebug", "wer $isFavorite")
-                if (isFavorite != null){
-                    if(isFavorite) removeMovieFromFavorites(movieId)
-                    else addMovieToFavorites(movieId, movie.imageUrl!!)
-                }
-                else{
-                    Log.i("kkDebug", "wer is favorite is null")
-                }
+                val isFavorite = listOfFavorites.any { it.id == movieId }
+                if (isFavorite) removeMovieFromFavorites(movieId)
+                else addMovieToFavorites(movieId, movie.imageUrl!!)
             }
         }
 
