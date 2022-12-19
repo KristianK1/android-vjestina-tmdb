@@ -43,7 +43,7 @@ class HomeViewModel(
                     movies = movies,
                 )
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeMovieCategoryViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HomeMovieCategoryViewState.EMPTY())
 
     val nowPlayingViewState: StateFlow<HomeMovieCategoryViewState> =
         nowPlayingCategorySelected.flatMapLatest { selected ->
@@ -54,7 +54,7 @@ class HomeViewModel(
                     movies = movies,
                 )
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeMovieCategoryViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HomeMovieCategoryViewState.EMPTY())
 
     val upcomingViewState: StateFlow<HomeMovieCategoryViewState> =
         upcomingCategorySelected.flatMapLatest { selected ->
@@ -65,7 +65,7 @@ class HomeViewModel(
                     movies = movies,
                 )
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HomeMovieCategoryViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, HomeMovieCategoryViewState.EMPTY())
 
 
     fun switchCategories(id: Int) {

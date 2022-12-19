@@ -15,7 +15,7 @@ class FavoritesViewModel(
     val favoritesViewState: StateFlow<FavoritesViewState> =
         movieRepository.favoriteMovies().map { movies ->
             favoritesScreenMapper.toFavoritesViewState(movies)
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, FavoritesViewState.EMPTY())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, FavoritesViewState.EMPTY())
 
     fun removeFavorite(id: Int) {
         viewModelScope.launch {

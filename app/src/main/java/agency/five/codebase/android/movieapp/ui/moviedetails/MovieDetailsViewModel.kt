@@ -16,7 +16,7 @@ class MovieDetailsViewModel(
     val movieDetailViewState: StateFlow<MovieDetailsViewState> =
         movieRepository.movieDetails(movieId).map{ movieDetails ->
             movieDetailsScreenMapper.toMovieDetailsViewState(movieDetails)
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, MovieDetailsViewState.getEmptyObject())
+        }.stateIn(viewModelScope, SharingStarted.Lazily, MovieDetailsViewState.getEmptyObject())
 
     fun toggleFavorite(id: Int) {
         viewModelScope.launch {

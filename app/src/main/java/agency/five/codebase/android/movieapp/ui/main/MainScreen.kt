@@ -105,7 +105,7 @@ fun MainScreen() {
                     MovieDetailsRoute(
                         viewModel = getViewModel {
                             parametersOf(
-                                navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)?: throw Throwable("no movieId sent")
+                                navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)?: throw IllegalStateException ("no movieId sent")
                             )
                         },
                     )
