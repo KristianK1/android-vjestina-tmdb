@@ -105,24 +105,25 @@ class MovieRepositoryImpl(
 
     override suspend fun addMovieToFavorites(movieId: Int, posterUrl: String) {
         val dbFavoriteMovie = DbFavoriteMovie(id = movieId, posterUrl = posterUrl)
-        movieDao.addFavorites(dbFavoriteMovie)
+        runBlocking(bgDispatcher) {
+            movieDao.addFavorites(dbFavoriteMovie)
+        }
     }
 
     override suspend fun removeMovieFromFavorites(movieId: Int) {
-        movieDao.removeFavorites(movieId)
+        runBlocking(bgDispatcher) {
+            movieDao.removeFavorites(movieId)
+        }
     }
 
     override suspend fun toggleFavorite(movieId: Int) {
-        runBlocking(bgDispatcher) {
-            val movie = findMovie(movieId)
-            if (movie != null) {
-                val listOfFavorites = movieDao.favorites().first()
-                val isFavorite = listOfFavorites.any { it.id == movieId }
-                if (isFavorite) removeMovieFromFavorites(movieId)
-                else addMovieToFavorites(movieId, movie.imageUrl!!)
-            }
+        val movie = findMovie(movieId)
+        if (movie != null) {
+            val listOfFavorites = movieDao.favorites().first()
+            val isFavorite = listOfFavorites.any { it.id == movieId }
+            if (isFavorite) removeMovieFromFavorites(movieId)
+            else addMovieToFavorites(movieId, movie.imageUrl!!)
         }
-
     }
 
 }
