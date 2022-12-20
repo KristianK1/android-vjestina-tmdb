@@ -3,7 +3,9 @@ package agency.five.codebase.android.movieapp.ui.main
 import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.navigation.*
 import agency.five.codebase.android.movieapp.ui.favorites.FavoritesRoute
+import agency.five.codebase.android.movieapp.ui.favorites.FavoritesViewModel
 import agency.five.codebase.android.movieapp.ui.home.HomeRoute
+import agency.five.codebase.android.movieapp.ui.home.HomeViewModel
 import agency.five.codebase.android.movieapp.ui.moviedetails.MovieDetailsRoute
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.Image
@@ -25,6 +27,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MainScreen() {
@@ -36,6 +40,7 @@ fun MainScreen() {
         }
     }
     val showBackIcon = !showBottomBar
+
     Scaffold(
         topBar = {
             TopBar(
@@ -81,7 +86,8 @@ fun MainScreen() {
                     HomeRoute(
                         onNavigateToMovieDetails = { route ->
                             navController.navigate(route)
-                        }
+                        },
+                        viewModel = getViewModel<HomeViewModel>(),
                     )
                 }
                 composable(NavigationItem.FavoritesDestination.route) {
@@ -89,14 +95,20 @@ fun MainScreen() {
                         onNavigateToMovieDetails = { route ->
                             navController.navigate(route)
                         },
-                        onClickLikeButton = { }
+                        viewModel = getViewModel<FavoritesViewModel>(),
                     )
                 }
                 composable(
                     route = MovieDetailsDestination.route,
                     arguments = listOf(navArgument(MOVIE_ID_KEY) { type = NavType.IntType }),
-                ) {
-                    MovieDetailsRoute()
+                ) { navBackStackEntry ->
+                    MovieDetailsRoute(
+                        viewModel = getViewModel {
+                            parametersOf(
+                                navBackStackEntry.arguments?.getInt(MOVIE_ID_KEY)?: throw IllegalStateException ("no movieId sent")
+                            )
+                        },
+                    )
                 }
             }
         }
@@ -132,7 +144,8 @@ private fun BackIcon(
     modifier: Modifier = Modifier,
 ) {
     Image(painter = painterResource(
-        id = R.drawable.backicon),
+        id = R.drawable.backicon
+    ),
         contentDescription = "back button",
         modifier = modifier
             .clickable { onBackClick() }
@@ -153,8 +166,10 @@ private fun BottomNavigationBar(
                 BottomNavigationItem(
                     selected = currentDestination?.route == destination.route,
                     icon = {
-                        Icon(painter = painterResource(if (currentDestination?.route == destination.route) destination.selectedIconId else destination.unselectedIconId),
-                            contentDescription = "icon")
+                        Icon(
+                            painter = painterResource(if (currentDestination?.route == destination.route) destination.selectedIconId else destination.unselectedIconId),
+                            contentDescription = "icon"
+                        )
                     },
                     label = {
                         Text(text = stringResource(id = destination.labelId))

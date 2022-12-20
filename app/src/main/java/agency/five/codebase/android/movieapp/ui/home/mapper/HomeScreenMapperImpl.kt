@@ -4,11 +4,9 @@ import agency.five.codebase.android.movieapp.R
 import agency.five.codebase.android.movieapp.model.Movie
 import agency.five.codebase.android.movieapp.model.MovieCategory
 import agency.five.codebase.android.movieapp.ui.component.MovieCategoryLabelViewState
-import agency.five.codebase.android.movieapp.ui.component.MovieCategoryTextString
 import agency.five.codebase.android.movieapp.ui.component.MovieCategoryTextStringResource
 import agency.five.codebase.android.movieapp.ui.home.HomeMovieCategoryViewState
 import agency.five.codebase.android.movieapp.ui.home.HomeMovieViewState
-import android.content.res.Resources
 
 
 class HomeScreenMapperImpl : HomeScreenMapper {
@@ -40,7 +38,7 @@ class HomeScreenMapperImpl : HomeScreenMapper {
         )
     }
 
-    fun getMovieCategoryName(category: MovieCategory): Int {
+    private fun getMovieCategoryName(category: MovieCategory): Int {
         return when (category) {
             MovieCategory.POPULAR_STREAMING -> R.string.streaming
             MovieCategory.POPULAR_ON_TV -> R.string.on_tv

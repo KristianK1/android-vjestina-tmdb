@@ -1,19 +1,10 @@
 package agency.five.codebase.android.movieapp.ui.favorites
 
-import agency.five.codebase.android.movieapp.mock.MoviesMock
 import agency.five.codebase.android.movieapp.navigation.MovieDetailsDestination
 import agency.five.codebase.android.movieapp.ui.component.MovieCard
-import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapper
-import agency.five.codebase.android.movieapp.ui.favorites.mapper.FavoritesMapperImpl
-import agency.five.codebase.android.movieapp.ui.theme.MovieAppTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import agency.five.codebase.android.movieapp.ui.theme.spacing
 import androidx.compose.foundation.layout.*
@@ -21,22 +12,19 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.res.stringResource
 import agency.five.codebase.android.movieapp.R
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.dimensionResource
-
-
-private val favoritesMapper: FavoritesMapper = FavoritesMapperImpl()
-val favoritesViewState = favoritesMapper.toFavoritesViewState(MoviesMock.getMoviesList())
 
 @Composable
 fun FavoritesRoute(
     onNavigateToMovieDetails: (String) -> Unit,
-    onClickLikeButton: (Int) -> Unit,
-) {
-    val favorites by remember { mutableStateOf(favoritesViewState) }
+    viewModel: FavoritesViewModel,
+){
+    val favoritesViewState: FavoritesViewState by viewModel.favoritesViewState.collectAsState()
     FavoritesScreen(
-        favorites,
+        favoritesViewState,
         onNavigateToMovieDetails,
-        onClickLikeButton,
+        viewModel::removeFavorite,
     )
 }
 
@@ -83,17 +71,5 @@ fun FavoritesScreen(
                     onClickLikeButton(movie.id)
                 })
         }
-    }
-}
-
-@Preview
-@Composable
-fun FavoritesScreenPreview() {
-    MovieAppTheme {
-        FavoritesScreen(
-            favoritesViewState,
-            onNavigateToMovieDetails = { },
-            onClickLikeButton = { },
-        )
     }
 }

@@ -191,4 +191,8 @@ object MoviesMock {
         character = "Tony Stark/Iron Man",
         imageUrl = "https://www.themoviedb.org/t/p/w200/5qHNjhtjMD4YWH3UP0rm4tKwxCL.jpg"
     )
+
+    fun getMovieDetails(movieId: Int): MovieDetails {
+        return getMovieDetails().copy(movie = getMovieDetails().movie.copy(id = movieId))
+    }
 }
