@@ -27,10 +27,6 @@ data class ApiMovieDetailsMultiple(
     val voteAverage: Float, //was double
     @SerialName("release_date")
     val releaseDate: String? = null,
-//    @SerialName("runtime")
-//    val runtime: Int,
-//    @SerialName("spoken_languages")
-//    val languages: List<ApiLanguage>,
 ) {
     fun toMovie(isFavorite: Boolean): Movie {
         return Movie(
@@ -41,35 +37,4 @@ data class ApiMovieDetailsMultiple(
             isFavorite = isFavorite
         )
     }
-
-//    fun toMovieDetails(
-//        isFavorite: Boolean,
-//        crew: List<ApiCrewman>,
-//        cast: List<ApiActor>,
-//        language: String,
-//        runtime: Int,
-//    ): MovieDetails {
-//        return MovieDetails(
-//            movie = toMovie(isFavorite),
-//            voteAverage = voteAverage,
-//            releaseDate = releaseDate,
-//            language = language,
-//            runtime = runtime,
-//            crew = crew.map { apiCrewman ->
-//                Crewman(
-//                    id = apiCrewman.id,
-//                    job = apiCrewman.job,
-//                    name = apiCrewman.name
-//                )
-//            },
-//            cast = cast.map { apiActor ->
-//                Actor(
-//                    id = apiActor.id,
-//                    name = apiActor.name,
-//                    character = apiActor.character,
-//                    imageUrl = apiActor.imagePath
-//                )
-//            }
-//        )
-//    }
 }
