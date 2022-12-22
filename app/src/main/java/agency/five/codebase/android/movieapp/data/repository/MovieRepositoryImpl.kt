@@ -19,33 +19,26 @@ class MovieRepositoryImpl(
     private val moviesByCategory: Map<MovieCategory, Flow<List<Movie>>> = MovieCategory.values()
         .associateWith { movieCategory ->
             flow {
-                val movieResponse: MovieResponse? = when (movieCategory) {
+                val movieResponse: MovieResponse = when (movieCategory) {
                     MovieCategory.POPULAR_STREAMING -> {
                         movieService.fetchPopularMovies()
                     }
                     MovieCategory.POPULAR_ON_TV -> {
                         movieService.fetchUpcomingMovies()
                     }
-                    MovieCategory.POPULAR_FOR_RENT -> {
-                        movieService.fetchTopRatedMovies()
-                    }
-                    MovieCategory.POPULAR_IN_THEATRES -> {
-                        movieService.fetchNowPlayingMovies()
-                    }
-                    MovieCategory.PLAYING_MOVIES -> {
-                        movieService.fetchNowPlayingMovies()
-                    }
-                    MovieCategory.PLAYING_TV -> {
-                        movieService.fetchTopRatedMovies()
-                    }
-                    MovieCategory.UPCOMING_TODAY -> {
-                        movieService.fetchNowPlayingMovies()
-                    }
-                    MovieCategory.UPCOMING_THIS_WEEK -> {
-                        movieService.fetchTopRatedMovies()
-                    }
+                    MovieCategory.POPULAR_FOR_RENT -> movieService.fetchTopRatedMovies()
+
+                    MovieCategory.POPULAR_IN_THEATRES -> movieService.fetchNowPlayingMovies()
+
+                    MovieCategory.PLAYING_MOVIES -> movieService.fetchNowPlayingMovies()
+
+                    MovieCategory.PLAYING_TV -> movieService.fetchTopRatedMovies()
+
+                    MovieCategory.UPCOMING_TODAY -> movieService.fetchNowPlayingMovies()
+
+                    MovieCategory.UPCOMING_THIS_WEEK -> movieService.fetchTopRatedMovies()
                 }
-                emit(movieResponse!!.movies) //TODO remove !!
+                emit(movieResponse.movies)
 
             }.flatMapLatest { apiMovies ->
                 movieDao.favorites().map { favoriteMovies ->
@@ -106,13 +99,13 @@ class MovieRepositoryImpl(
     override suspend fun addMovieToFavorites(movieId: Int, posterUrl: String) {
         val dbFavoriteMovie = DbFavoriteMovie(id = movieId, posterUrl = posterUrl)
         runBlocking(bgDispatcher) {
-            movieDao.addFavorites(dbFavoriteMovie)
+            movieDao.addFavorite(dbFavoriteMovie)
         }
     }
 
     override suspend fun removeMovieFromFavorites(movieId: Int) {
         runBlocking(bgDispatcher) {
-            movieDao.removeFavorites(movieId)
+            movieDao.removeFavorite(movieId)
         }
     }
 

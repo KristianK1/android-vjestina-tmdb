@@ -33,16 +33,3 @@ fun FavoriteButton(
             }
             .padding(MaterialTheme.spacing.small))
 }
-
-@Preview
-@Composable
-private fun FavoriteButtonPreview() {
-    var active by remember { mutableStateOf(false) }
-    FavoriteButton(
-        onClick = {
-            active = !active
-        },
-        state = active,
-        Modifier
-    )
-}

@@ -5,13 +5,13 @@ import agency.five.codebase.android.movieapp.data.network.model.MovieDetailsResp
 import agency.five.codebase.android.movieapp.data.network.model.MovieResponse
 
 interface MovieService {
-    suspend fun fetchPopularMovies(): MovieResponse?
+    suspend fun fetchPopularMovies(): MovieResponse
 
-    suspend fun fetchNowPlayingMovies(): MovieResponse?
+    suspend fun fetchNowPlayingMovies(): MovieResponse
 
-    suspend fun fetchUpcomingMovies(): MovieResponse?
+    suspend fun fetchUpcomingMovies(): MovieResponse
 
-    suspend fun fetchTopRatedMovies(): MovieResponse?
+    suspend fun fetchTopRatedMovies(): MovieResponse
 
     suspend fun fetchMovieDetails(movieId: Int): MovieDetailsResponse
 

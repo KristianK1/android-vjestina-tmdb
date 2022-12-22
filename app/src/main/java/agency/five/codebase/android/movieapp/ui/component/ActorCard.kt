@@ -71,14 +71,3 @@ fun ActorCard(
         }
     }
 }
-
-
-//@Preview
-//@Composable
-//private fun ActorCardPreview() {
-//    val actor = MoviesMock.getActor()
-//    val actorPreview = ActorCardViewState(
-//        actor.imageUrl, actor.name, actor.character,
-//    )
-//    ActorCard(item = actorPreview, Modifier.size(width = 300.dp, height = 580.dp))
-//}

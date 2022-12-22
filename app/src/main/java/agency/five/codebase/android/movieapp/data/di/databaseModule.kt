@@ -9,9 +9,6 @@ import org.koin.dsl.module
 private const val APP_DATABASE_NAME = "app_database.db"
 val databaseModule = module {
 
-    fun provideFavoriteMovieDao(database: MovieAppDatabase): FavoriteMovieDao {
-        return database.favoritesMovieDao()
-    }
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -19,5 +16,5 @@ val databaseModule = module {
             APP_DATABASE_NAME,
         ).build()
     }
-    single { provideFavoriteMovieDao(get()) }
+    single { get<MovieAppDatabase>().favoritesMovieDao() }
 }

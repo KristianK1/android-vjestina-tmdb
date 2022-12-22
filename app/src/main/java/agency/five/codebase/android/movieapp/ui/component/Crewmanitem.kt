@@ -28,11 +28,3 @@ fun CrewmanItem(
         )
     }
 }
-
-//@Preview
-//@Composable
-//fun CrewmanItemPreview() {
-//    val crewman = MoviesMock.getCrewman()
-//    val crewmanViewState = CrewmanItemViewState(crewman.name, crewman.job)
-//    CrewmanItem(item = crewmanViewState)
-//}

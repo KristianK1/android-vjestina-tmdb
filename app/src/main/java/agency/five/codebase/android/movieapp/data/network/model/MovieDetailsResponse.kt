@@ -22,7 +22,7 @@ data class MovieDetailsResponse(
     @SerialName("genres")
     val genres: List<ApiGenre>,
     @SerialName("vote_average")
-    val voteAverage: Float, //was double
+    val voteAverage: Float,
     @SerialName("release_date")
     val releaseDate: String? = null,
     @SerialName("runtime")
@@ -52,19 +52,10 @@ data class MovieDetailsResponse(
             language = languages[0].name,
             runtime = runtime,
             crew = crew.map { apiCrewman ->
-                Crewman(
-                    id = apiCrewman.id,
-                    job = apiCrewman.job,
-                    name = apiCrewman.name
-                )
+                apiCrewman.toCrewman()
             },
             cast = cast.map { apiActor ->
-                Actor(
-                    id = apiActor.id,
-                    name = apiActor.name,
-                    character = apiActor.character,
-                    imageUrl = apiActor.imagePath
-                )
+                apiActor.toActor()
             }
         )
     }

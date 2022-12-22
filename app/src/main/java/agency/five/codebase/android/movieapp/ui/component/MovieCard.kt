@@ -51,25 +51,3 @@ fun MovieCard(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun PreviewMovieCard() {
-//    val movie = MoviesMock.getMoviesList()[0]
-//
-//    var movieState by remember {
-//      mutableStateOf(
-//          MovieCardViewState(
-//              movie.imageUrl, false
-//          )
-//      )
-//    }
-//
-//    MovieCard(item = movieState,
-//        modifier = Modifier.size(100.dp, 170.dp),
-//        onClickMovieItem = {
-//        },
-//        onClickLikeButton = {
-//            movieState = movieState.copy(isFavorite = !movieState.isFavorite)
-//        })
-//}
