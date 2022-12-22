@@ -53,7 +53,7 @@ fun UserScoreProgressBar(
             )
         }
         Text(
-            text = "$value",
+            text = "%.1f".format(value),
             fontSize = 25.sp
         )
     }
