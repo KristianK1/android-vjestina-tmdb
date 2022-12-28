@@ -20,12 +20,10 @@ class MovieRepositoryImpl(
         .associateWith { movieCategory ->
             flow {
                 val movieResponse: MovieResponse = when (movieCategory) {
-                    MovieCategory.POPULAR_STREAMING -> {
-                        movieService.fetchPopularMovies()
-                    }
-                    MovieCategory.POPULAR_ON_TV -> {
-                        movieService.fetchUpcomingMovies()
-                    }
+                    MovieCategory.POPULAR_STREAMING -> movieService.fetchPopularMovies()
+
+                    MovieCategory.POPULAR_ON_TV -> movieService.fetchUpcomingMovies()
+
                     MovieCategory.POPULAR_FOR_RENT -> movieService.fetchTopRatedMovies()
 
                     MovieCategory.POPULAR_IN_THEATRES -> movieService.fetchNowPlayingMovies()
