@@ -12,7 +12,6 @@ class MovieDetailsViewModel(
     private val movieRepository: MovieRepository,
     private val movieDetailsScreenMapper: MovieDetailsMapper,
 ) : ViewModel() {
-
     val movieDetailViewState: StateFlow<MovieDetailsViewState> =
         movieRepository.movieDetails(movieId).map{ movieDetails ->
             movieDetailsScreenMapper.toMovieDetailsViewState(movieDetails)

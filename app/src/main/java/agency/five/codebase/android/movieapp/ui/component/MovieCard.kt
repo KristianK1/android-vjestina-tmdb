@@ -1,6 +1,6 @@
 package agency.five.codebase.android.movieapp.ui.component
 
-import agency.five.codebase.android.movieapp.mock.MoviesMock
+//import agency.five.codebase.android.movieapp.mock.MoviesMock
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -50,26 +50,4 @@ fun MovieCard(
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewMovieCard() {
-    val movie = MoviesMock.getMoviesList()[0]
-
-    var movieState by remember {
-      mutableStateOf(
-          MovieCardViewState(
-              movie.imageUrl, false
-          )
-      )
-    }
-
-    MovieCard(item = movieState,
-        modifier = Modifier.size(100.dp, 170.dp),
-        onClickMovieItem = {
-        },
-        onClickLikeButton = {
-            movieState = movieState.copy(isFavorite = !movieState.isFavorite)
-        })
 }

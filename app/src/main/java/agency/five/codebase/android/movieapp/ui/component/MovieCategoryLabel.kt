@@ -57,21 +57,3 @@ fun MovieCategoryLabel(
         )
     }
 }
-
-@Preview
-@Composable
-fun MovieCategoryLabelPreview() {
-    var movieCategoryViewState by remember {
-        mutableStateOf(
-            MovieCategoryLabelViewState(
-                9,
-                true,
-                MovieCategoryTextString("Comedy")
-            )
-        )
-    }
-    val onClick = { item: MovieCategoryLabelViewState ->
-        movieCategoryViewState = movieCategoryViewState.copy(isSelected = !item.isSelected)
-    }
-    MovieCategoryLabel(movieCategoryViewState, onClick, Modifier)
-}

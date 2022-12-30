@@ -53,22 +53,9 @@ fun UserScoreProgressBar(
             )
         }
         Text(
-            text = "$value",
+            text = "%.1f".format(value),
             fontSize = 25.sp
         )
     }
 
-}
-
-@Preview
-@Composable
-private fun UserScoreProgressBarPreview() {
-    val percentage = 0.15f
-    UserScoreProgressBar(
-        percentage,
-        percentage * 10,
-        modifier = Modifier.size(60.dp),
-        color = Color.Green,
-        strokeWidth = 15f
-    )
 }
